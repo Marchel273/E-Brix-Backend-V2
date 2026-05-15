@@ -1,88 +1,10 @@
-from flask import Blueprint, request, jsonify
-from extensions import db
-from model import Prediksi, DataBrix
+from flask import Blueprint
+from controllers.prediksi_controller import create_prediksi, get_all_prediksi, get_prediksi_by_id, update_prediksi, delete_prediksi
 
 prediksi_bp = Blueprint("prediksi", __name__)
 
-@prediksi_bp.route("/prediksi", methods=["POST"])
-def create_prediksi():
-    data = request.get_json()
-    if not data or not data.get("id_data"):
-        return jsonify({"message": "id_data wajib diisi"}), 400
-
-    if not DataBrix.query.get(data.get("id_data")):
-        return jsonify({"message": "Data Brix tidak ditemukan"}), 404
-
-    new_prediksi = Prediksi(
-        id_data=data.get("id_data"),
-        hasil_prediksi=data.get("hasil_prediksi"),
-        confidence_score=data.get("confidence_score"),
-    )
-    db.session.add(new_prediksi)
-    db.session.commit()
-
-    return jsonify({
-        "message": "Data Prediksi berhasil ditambahkan",
-        "data": {
-            "id_prediksi": new_prediksi.id_prediksi, "id_data": new_prediksi.id_data,
-            "hasil_prediksi": new_prediksi.hasil_prediksi, "confidence_score": new_prediksi.confidence_score
-        }
-    }), 201
-
-@prediksi_bp.route("/prediksi", methods=["GET"])
-def get_all_prediksi():
-    prediksis = Prediksi.query.all()
-    result = [{
-        "id_prediksi": p.id_prediksi, "id_data": p.id_data,
-        "hasil_prediksi": p.hasil_prediksi, "confidence_score": p.confidence_score
-    } for p in prediksis]
-    return jsonify({"message": "Berhasil mengambil semua data prediksi", "total": len(result), "data": result})
-
-@prediksi_bp.route("/prediksi/<int:id>", methods=["GET"])
-def get_prediksi_by_id(id):
-    prediksi = Prediksi.query.get(id)
-    if not prediksi:
-        return jsonify({"message": "Data Prediksi tidak ditemukan"}), 404
-    return jsonify({
-        "message": "Berhasil mengambil data prediksi",
-        "data": {
-            "id_prediksi": prediksi.id_prediksi, "id_data": prediksi.id_data,
-            "hasil_prediksi": prediksi.hasil_prediksi, "confidence_score": prediksi.confidence_score
-        }
-    })
-
-@prediksi_bp.route("/prediksi/<int:id>", methods=["PUT"])
-def update_prediksi(id):
-    prediksi = Prediksi.query.get(id)
-    if not prediksi:
-        return jsonify({"message": "Data Prediksi tidak ditemukan"}), 404
-
-    data = request.get_json()
-    if not data:
-        return jsonify({"message": "Body JSON tidak boleh kosong"}), 400
-
-    if "id_data" in data:
-        if not DataBrix.query.get(data["id_data"]): return jsonify({"message": "Data Brix tidak ditemukan"}), 404
-        prediksi.id_data = data["id_data"]
-
-    if "hasil_prediksi" in data: prediksi.hasil_prediksi = data["hasil_prediksi"]
-    if "confidence_score" in data: prediksi.confidence_score = data["confidence_score"]
-
-    db.session.commit()
-    return jsonify({
-        "message": "Data Prediksi berhasil diupdate",
-        "data": {
-            "id_prediksi": prediksi.id_prediksi, "id_data": prediksi.id_data,
-            "hasil_prediksi": prediksi.hasil_prediksi, "confidence_score": prediksi.confidence_score
-        }
-    })
-
-@prediksi_bp.route("/prediksi/<int:id>", methods=["DELETE"])
-def delete_prediksi(id):
-    prediksi = Prediksi.query.get(id)
-    if not prediksi:
-        return jsonify({"message": "Data Prediksi tidak ditemukan"}), 404
-
-    db.session.delete(prediksi)
-    db.session.commit()
-    return jsonify({"message": "Data Prediksi berhasil dihapus"})
+prediksi_bp.add_url_rule("/prediksi", view_func=create_prediksi, methods=["POST"])
+prediksi_bp.add_url_rule("/prediksi", view_func=get_all_prediksi, methods=["GET"])
+prediksi_bp.add_url_rule("/prediksi/<int:id>", view_func=get_prediksi_by_id, methods=["GET"])
+prediksi_bp.add_url_rule("/prediksi/<int:id>", view_func=update_prediksi, methods=["PUT"])
+prediksi_bp.add_url_rule("/prediksi/<int:id>", view_func=delete_prediksi, methods=["DELETE"])
