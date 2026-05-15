@@ -1,6 +1,8 @@
 from flask import request, jsonify
 from extensions import db
-from models.model import Blok, Lahan, DataBrix
+from models.blok import Blok
+from models.lahan import Lahan
+from models.data_brix import DataBrix
 
 def create_blok():
     data = request.get_json()

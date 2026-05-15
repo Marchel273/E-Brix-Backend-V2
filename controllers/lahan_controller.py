@@ -1,6 +1,7 @@
 from flask import request, jsonify
 from extensions import db
-from models.model import Lahan, Blok
+from models.lahan import Lahan
+from models.blok import Blok
 
 def create_lahan():
     data = request.get_json()

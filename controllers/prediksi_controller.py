@@ -1,6 +1,7 @@
 from flask import request, jsonify
 from extensions import db
-from models.model import Prediksi, DataBrix
+from models.prediksi import Prediksi
+from models.data_brix import DataBrix
 
 def create_prediksi():
     data = request.get_json()
