@@ -1,3 +1,4 @@
 .env
 __pycache__/
 requirements.txt
+api_env
