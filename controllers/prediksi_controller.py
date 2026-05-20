@@ -4,21 +4,30 @@ from models.prediksi import Prediksi
 from models.data_brix import DataBrix
 
 def create_prediksi():
-    data = request.get_json()
-    if not data or not data.get("id_data"):
+    if request.is_json:
+        data = request.get_json() or {}
+    else:
+        data = request.form
+
+    id_data = data.get("id_data")
+    hasil_prediksi = data.get("hasil_prediksi")
+    confidence_score = data.get("confidence_score")
+
+    if not id_data:
         return jsonify({"message": "id_data wajib diisi"}), 400
 
-    if not DataBrix.query.get(data.get("id_data")):
+    if not DataBrix.query.get(id_data):
         return jsonify({"message": "Data Brix tidak ditemukan"}), 404
 
     new_prediksi = Prediksi(
-        id_data=data.get("id_data"),
-        hasil_prediksi=data.get("hasil_prediksi"),
-        confidence_score=data.get("confidence_score"),
+        id_data=id_data,
+        hasil_prediksi=hasil_prediksi,
+        confidence_score=confidence_score,
     )
     db.session.add(new_prediksi)
     db.session.commit()
-
+    
+    
     return jsonify({
         "message": "Data Prediksi berhasil ditambahkan",
         "data": {
@@ -52,12 +61,14 @@ def update_prediksi(id):
     if not prediksi:
         return jsonify({"message": "Data Prediksi tidak ditemukan"}), 404
 
-    data = request.get_json()
-    if not data:
-        return jsonify({"message": "Body JSON tidak boleh kosong"}), 400
+    if request.is_json:
+        data = request.get_json() or {}
+    else:
+        data = request.form
 
     if "id_data" in data:
-        if not DataBrix.query.get(data["id_data"]): return jsonify({"message": "Data Brix tidak ditemukan"}), 404
+        if not DataBrix.query.get(data["id_data"]): 
+            return jsonify({"message": "Data Brix tidak ditemukan"}), 404
         prediksi.id_data = data["id_data"]
 
     if "hasil_prediksi" in data: prediksi.hasil_prediksi = data["hasil_prediksi"]

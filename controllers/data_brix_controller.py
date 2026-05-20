@@ -2,25 +2,56 @@ from flask import request, jsonify
 from extensions import db
 from models.data_brix import DataBrix
 from models.blok import Blok
+import cloudinary.uploader
+
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'pdf'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def create_brix():
-    data = request.get_json()
-    if not data or not data.get("id_blok"):
+    if request.is_json:
+        data = request.get_json() or {}
+        id_blok = data.get("id_blok")
+        latitude = data.get("latitude")
+        longitude = data.get("longitude")
+        nilai_brix = data.get("nilai_brix")
+        foto_teks = data.get("foto")
+        foto_file = None
+    else:
+        id_blok = request.form.get("id_blok")
+        latitude = request.form.get("latitude")
+        longitude = request.form.get("longitude")
+        nilai_brix = request.form.get("nilai_brix")
+        foto_file = request.files.get("foto")
+        foto_teks = None
+
+    if not id_blok:
         return jsonify({"message": "id_blok wajib diisi"}), 400
     
-    # Validasi foto wajib diisi untuk data_brix
-    if not data.get("foto"):
+    if not foto_file and not foto_teks:
         return jsonify({"message": "foto wajib diisi"}), 400
 
-    if not Blok.query.get(data.get("id_blok")):
+    if not Blok.query.get(id_blok):
         return jsonify({"message": "Blok tidak ditemukan"}), 404
 
+    foto_url = None
+    if foto_file:
+        if not allowed_file(foto_file.filename):
+            return jsonify({"message": "Format file tidak didukung"}), 400
+        try:
+            upload_result = cloudinary.uploader.upload(
+                foto_file, folder="agrikultur/data_brix", resource_type="auto"
+            )
+            foto_url = upload_result.get("secure_url")
+        except Exception as e:
+            return jsonify({"message": f"Gagal mengunggah gambar ke cloud: {str(e)}"}), 500
+    elif foto_teks:
+        foto_url = foto_teks
+
     new_data = DataBrix(
-        id_blok=data.get("id_blok"),
-        latitude=data.get("latitude"),
-        longitude=data.get("longitude"),
-        nilai_brix=data.get("nilai_brix"),
-        foto=data.get("foto") # Wajib
+        id_blok=id_blok, latitude=latitude, longitude=longitude,
+        nilai_brix=nilai_brix, foto=foto_url
     )
     db.session.add(new_data)
     db.session.commit()
@@ -59,18 +90,36 @@ def update_brix(id):
     if not data_brix:
         return jsonify({"message": "Data Brix tidak ditemukan"}), 404
 
-    data = request.get_json()
-    if not data:
-        return jsonify({"message": "Body JSON tidak boleh kosong"}), 400
+    if request.is_json:
+        data = request.get_json() or {}
+        foto_file = None
+        foto_teks = data.get("foto")
+    else:
+        data = request.form
+        foto_file = request.files.get("foto")
+        foto_teks = None
 
     if "id_blok" in data:
-        if not Blok.query.get(data["id_blok"]): return jsonify({"message": "Blok tidak ditemukan"}), 404
+        if not Blok.query.get(data["id_blok"]): 
+            return jsonify({"message": "Blok tidak ditemukan"}), 404
         data_brix.id_blok = data["id_blok"]
 
     if "latitude" in data: data_brix.latitude = data["latitude"]
     if "longitude" in data: data_brix.longitude = data["longitude"]
     if "nilai_brix" in data: data_brix.nilai_brix = data["nilai_brix"]
-    if "foto" in data: data_brix.foto = data["foto"]
+
+    if foto_file:
+        if not allowed_file(foto_file.filename):
+            return jsonify({"message": "Format file tidak didukung"}), 400
+        try:
+            upload_result = cloudinary.uploader.upload(
+                foto_file, folder="agrikultur/data_brix", resource_type="auto"
+            )
+            data_brix.foto = upload_result.get("secure_url")
+        except Exception as e:
+            return jsonify({"message": f"Gagal mengunggah gambar ke cloud: {str(e)}"}), 500
+    elif foto_teks:
+        data_brix.foto = foto_teks
 
     db.session.commit()
     return jsonify({

@@ -10,7 +10,7 @@ class Blok(db.Model):
     )
     nama_blok = db.Column(db.String(50), nullable=False)
     foto = db.Column(db.String(255), nullable=True) # Optional
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(
-        db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
+        db.DateTime, default=datetime.now, onupdate=datetime.now
     )

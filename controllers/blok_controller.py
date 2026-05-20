@@ -3,20 +3,47 @@ from extensions import db
 from models.blok import Blok
 from models.lahan import Lahan
 from models.data_brix import DataBrix
+import cloudinary.uploader
+
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'pdf'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def create_blok():
-    data = request.get_json()
-    if not data or not data.get("id_lahan") or not data.get("nama_blok"):
+    if request.is_json:
+        data = request.get_json() or {}
+        id_lahan = data.get("id_lahan")
+        nama_blok = data.get("nama_blok")
+        foto_teks = data.get("foto")
+        foto_file = None
+    else:
+        id_lahan = request.form.get("id_lahan")
+        nama_blok = request.form.get("nama_blok")
+        foto_file = request.files.get("foto")
+        foto_teks = None
+
+    if not id_lahan or not nama_blok:
         return jsonify({"message": "id_lahan dan nama_blok wajib diisi"}), 400
 
-    if not Lahan.query.get(data.get("id_lahan")):
+    if not Lahan.query.get(id_lahan):
         return jsonify({"message": "Lahan tidak ditemukan"}), 404
 
-    new_blok = Blok(
-        id_lahan=data.get("id_lahan"),
-        nama_blok=data.get("nama_blok"),
-        foto=data.get("foto") # Optional
-    )
+    foto_url = None
+    if foto_file:
+        if not allowed_file(foto_file.filename):
+            return jsonify({"message": "Format file tidak didukung"}), 400
+        try:
+            upload_result = cloudinary.uploader.upload(
+                foto_file, folder="agrikultur/blok", resource_type="auto"
+            )
+            foto_url = upload_result.get("secure_url")
+        except Exception as e:
+            return jsonify({"message": f"Gagal mengunggah gambar ke cloud: {str(e)}"}), 500
+    elif foto_teks:
+        foto_url = foto_teks
+
+    new_blok = Blok(id_lahan=id_lahan, nama_blok=nama_blok, foto=foto_url)
     db.session.add(new_blok)
     db.session.commit()
 
@@ -47,16 +74,35 @@ def update_blok(id):
     if not blok:
         return jsonify({"message": "Blok tidak ditemukan"}), 404
 
-    data = request.get_json()
-    if not data:
-        return jsonify({"message": "Body JSON tidak boleh kosong"}), 400
+    if request.is_json:
+        data = request.get_json() or {}
+        foto_file = None
+        foto_teks = data.get("foto")
+    else:
+        data = request.form
+        foto_file = request.files.get("foto")
+        foto_teks = None
 
     if "id_lahan" in data:
-        if not Lahan.query.get(data["id_lahan"]): return jsonify({"message": "Lahan tidak ditemukan"}), 404
+        if not Lahan.query.get(data["id_lahan"]): 
+            return jsonify({"message": "Lahan tidak ditemukan"}), 404
         blok.id_lahan = data["id_lahan"]
 
-    if "nama_blok" in data: blok.nama_blok = data["nama_blok"]
-    if "foto" in data: blok.foto = data["foto"]
+    if "nama_blok" in data: 
+        blok.nama_blok = data["nama_blok"]
+
+    if foto_file:
+        if not allowed_file(foto_file.filename):
+            return jsonify({"message": "Format file tidak didukung"}), 400
+        try:
+            upload_result = cloudinary.uploader.upload(
+                foto_file, folder="agrikultur/blok", resource_type="auto"
+            )
+            blok.foto = upload_result.get("secure_url")
+        except Exception as e:
+            return jsonify({"message": f"Gagal mengunggah gambar ke cloud: {str(e)}"}), 500
+    elif foto_teks:
+        blok.foto = foto_teks
 
     db.session.commit()
     return jsonify({
