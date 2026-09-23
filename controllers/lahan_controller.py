@@ -1,116 +1,173 @@
+import uuid
 from flask import request, jsonify
+from flask_jwt_extended import jwt_required
 from extensions import db
 from models.lahan import Lahan
-from models.blok import Blok
-import cloudinary.uploader
+from models.petani import Petani
+from utils.helpers import geojson_to_wkbelement, geometry_to_geojson
 
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'pdf'}
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
+@jwt_required()
 def create_lahan():
-    if request.is_json:
-        data = request.get_json() or {}
-        nama_lahan = data.get("nama_lahan")
-        tipe = data.get("tipe")
-        foto_teks = data.get("foto")
-        foto_file = None
-    else:
-        nama_lahan = request.form.get("nama_lahan")
-        tipe = request.form.get("tipe")
-        foto_file = request.files.get("foto")
-        foto_teks = None
+    data = request.get_json() or {}
+    id_petani = data.get("id_petani")
+    nama_lahan = data.get("nama_lahan")
+    geom_data = data.get("geom")
 
-    if not nama_lahan:
-        return jsonify({"message": "nama_lahan wajib diisi"}), 400
+    if not id_petani or not nama_lahan or not geom_data:
+        return jsonify({"message": "id_petani, nama_lahan, dan geom (Polygon) wajib diisi"}), 400
 
-    foto_url = None
-    if foto_file: # Jika upload via Form-Data
-        if not allowed_file(foto_file.filename):
-            return jsonify({"message": "Format file tidak didukung. Hanya menerima PNG, JPG, JPEG, dan PDF"}), 400
+    try:
+        petani_uuid = uuid.UUID(str(id_petani))
+        petani = db.session.get(Petani, petani_uuid)
+    except Exception:
+        return jsonify({"message": "Format id_petani tidak valid"}), 400
+
+    if not petani:
+        return jsonify({"message": "Petani tidak ditemukan"}), 404
+
+    try:
+        wkb_geom = geojson_to_wkbelement(geom_data)
+    except ValueError as ve:
+        return jsonify({"message": str(ve)}), 400
+
+    new_lahan = Lahan(
+        id_petani=petani_uuid,
+        nama_lahan=nama_lahan,
+        geom=wkb_geom
+    )
+
+    try:
+        db.session.add(new_lahan)
+        db.session.commit()
+
+        return jsonify({
+            "message": "Data Lahan berhasil ditambahkan",
+            "data": {
+                "id_lahan": str(new_lahan.id_lahan),
+                "id_petani": str(new_lahan.id_petani),
+                "nama_lahan": new_lahan.nama_lahan,
+                "geom": geometry_to_geojson(new_lahan.geom),
+                "created_at": new_lahan.created_at.isoformat() if new_lahan.created_at else None
+            }
+        }), 201
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"message": f"Gagal menambahkan lahan: {str(e)}"}), 500
+
+@jwt_required()
+def get_all_lahan():
+    page = request.args.get("page", 1, type=int)
+    per_page = request.args.get("per_page", 20, type=int)
+    id_petani = request.args.get("id_petani")
+
+    query = Lahan.query
+    if id_petani:
         try:
-            upload_result = cloudinary.uploader.upload(
-                foto_file, folder="agrikultur/lahan", resource_type="auto"
-            )
-            foto_url = upload_result.get("secure_url")
-        except Exception as e:
-            return jsonify({"message": f"Gagal mengunggah file ke cloud: {str(e)}"}), 500
-    elif foto_teks: # Jika kirim link via JSON
-        foto_url = foto_teks
+            petani_uuid = uuid.UUID(str(id_petani))
+            query = query.filter_by(id_petani=petani_uuid)
+        except Exception:
+            return jsonify({"message": "Format id_petani filter tidak valid"}), 400
 
-    new_lahan = Lahan(nama_lahan=nama_lahan, tipe=tipe, foto=foto_url)
-    db.session.add(new_lahan)
-    db.session.commit()
+    pagination = query.paginate(page=page, per_page=per_page, error_out=False)
+    result = [{
+        "id_lahan": str(l.id_lahan),
+        "id_petani": str(l.id_petani),
+        "nama_lahan": l.nama_lahan,
+        "geom": geometry_to_geojson(l.geom),
+        "created_at": l.created_at.isoformat() if l.created_at else None
+    } for l in pagination.items]
 
     return jsonify({
-        "message": "Data Lahan berhasil ditambahkan",
-        "data": {
-            "id_lahan": new_lahan.id_lahan, "nama_lahan": new_lahan.nama_lahan,
-            "tipe": new_lahan.tipe, "foto": new_lahan.foto
-        }
-    }), 201
+        "message": "Berhasil mengambil semua data lahan",
+        "total": pagination.total,
+        "page": pagination.page,
+        "pages": pagination.pages,
+        "data": result
+    }), 200
 
-def get_all_lahan():
-    lahans = Lahan.query.all()
-    result = [{"id_lahan": l.id_lahan, "nama_lahan": l.nama_lahan, "tipe": l.tipe, "foto": l.foto} for l in lahans]
-    return jsonify({"message": "Berhasil mengambil semua data lahan", "total": len(result), "data": result})
-
+@jwt_required()
 def get_lahan_by_id(id):
-    lahan = Lahan.query.get(id)
+    try:
+        lahan_uuid = uuid.UUID(str(id))
+        lahan = db.session.get(Lahan, lahan_uuid)
+    except Exception:
+        return jsonify({"message": "Format ID lahan tidak valid"}), 400
+
     if not lahan:
         return jsonify({"message": "Lahan tidak ditemukan"}), 404
+
     return jsonify({
         "message": "Berhasil mengambil data lahan",
-        "data": {"id_lahan": lahan.id_lahan, "nama_lahan": lahan.nama_lahan, "tipe": lahan.tipe, "foto": lahan.foto}
-    })
+        "data": {
+            "id_lahan": str(lahan.id_lahan),
+            "id_petani": str(lahan.id_petani),
+            "nama_lahan": lahan.nama_lahan,
+            "geom": geometry_to_geojson(lahan.geom),
+            "created_at": lahan.created_at.isoformat() if lahan.created_at else None,
+            "updated_at": lahan.updated_at.isoformat() if lahan.updated_at else None
+        }
+    }), 200
 
+@jwt_required()
 def update_lahan(id):
-    lahan = Lahan.query.get(id)
+    try:
+        lahan_uuid = uuid.UUID(str(id))
+        lahan = db.session.get(Lahan, lahan_uuid)
+    except Exception:
+        return jsonify({"message": "Format ID lahan tidak valid"}), 400
+
     if not lahan:
         return jsonify({"message": "Lahan tidak ditemukan"}), 404
 
-    if request.is_json:
-        data = request.get_json() or {}
-        foto_file = None
-        foto_teks = data.get("foto")
-    else:
-        data = request.form
-        foto_file = request.files.get("foto")
-        foto_teks = None
-
-    if "nama_lahan" in data: lahan.nama_lahan = data["nama_lahan"]
-    if "tipe" in data: lahan.tipe = data["tipe"]
-
-    if foto_file:
-        if not allowed_file(foto_file.filename):
-            return jsonify({"message": "Format file tidak didukung"}), 400
+    data = request.get_json() or {}
+    if "id_petani" in data:
         try:
-            upload_result = cloudinary.uploader.upload(
-                foto_file, folder="agrikultur/lahan", resource_type="auto"
-            )
-            lahan.foto = upload_result.get("secure_url") 
-        except Exception as e:
-            return jsonify({"message": f"Gagal mengunggah file ke cloud: {str(e)}"}), 500
-    elif foto_teks:
-        lahan.foto = foto_teks
+            petani_uuid = uuid.UUID(str(data["id_petani"]))
+            if not db.session.get(Petani, petani_uuid):
+                return jsonify({"message": "Petani tidak ditemukan"}), 404
+            lahan.id_petani = petani_uuid
+        except Exception:
+            return jsonify({"message": "Format id_petani tidak valid"}), 400
 
-    db.session.commit()
-    return jsonify({
-        "message": "Data Lahan berhasil diupdate",
-        "data": {"id_lahan": lahan.id_lahan, "nama_lahan": lahan.nama_lahan, "tipe": lahan.tipe, "foto": lahan.foto}
-    })
+    if "nama_lahan" in data:
+        lahan.nama_lahan = data["nama_lahan"]
 
+    if "geom" in data:
+        try:
+            lahan.geom = geojson_to_wkbelement(data["geom"])
+        except ValueError as ve:
+            return jsonify({"message": str(ve)}), 400
+
+    try:
+        db.session.commit()
+        return jsonify({
+            "message": "Data Lahan berhasil diupdate",
+            "data": {
+                "id_lahan": str(lahan.id_lahan),
+                "id_petani": str(lahan.id_petani),
+                "nama_lahan": lahan.nama_lahan,
+                "geom": geometry_to_geojson(lahan.geom)
+            }
+        }), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"message": f"Gagal mengupdate lahan: {str(e)}"}), 500
+
+@jwt_required()
 def delete_lahan(id):
-    lahan = Lahan.query.get(id)
+    try:
+        lahan_uuid = uuid.UUID(str(id))
+        lahan = db.session.get(Lahan, lahan_uuid)
+    except Exception:
+        return jsonify({"message": "Format ID lahan tidak valid"}), 400
+
     if not lahan:
         return jsonify({"message": "Lahan tidak ditemukan"}), 404
 
-    jumlah_blok = Blok.query.filter_by(id_lahan=id).count()
-    db.session.delete(lahan)
-    db.session.commit()
-
-    return jsonify({
-        "message": "Data Lahan berhasil dihapus",
-        "info": {"blok_terhapus": jumlah_blok, "catatan": "Data terkait ikut terhapus karena ON DELETE CASCADE"}
-    })
+    try:
+        db.session.delete(lahan)
+        db.session.commit()
+        return jsonify({"message": "Data Lahan dan seluruh blok terkait berhasil dihapus"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"message": f"Gagal menghapus lahan: {str(e)}"}), 500

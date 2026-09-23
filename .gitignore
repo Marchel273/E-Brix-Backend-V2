@@ -1,4 +1,6 @@
 .env
 __pycache__/
-requirements.txt
-api_env
+api_env/
+venv/
+*.pyc
+.vscode/

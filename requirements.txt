@@ -1,0 +1,11 @@
+flask
+flask-cors
+flask-sqlalchemy
+flask-jwt-extended
+flask-bcrypt
+psycopg2-binary
+GeoAlchemy2
+python-dotenv
+cloudinary
+shapely
+reportlab
