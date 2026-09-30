@@ -120,7 +120,7 @@ def update_petani(id):
 
     try:
         db.session.commit()
-        return jsonify({
+        return jsonify({    
             "message": "Data Petani berhasil diupdate",
             "data": {
                 "id_petani": str(petani.id_petani),

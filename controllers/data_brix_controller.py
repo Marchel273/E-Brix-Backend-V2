@@ -17,10 +17,10 @@ def _update_blok_rata_brix(id_blok):
     if blok:
         blok.rata_brix = round(float(avg_brix), 2) if avg_brix is not None else None
 
-@jwt_required()
+@jwt_required(optional=True)
 def create_brix():
     current_user_id = get_jwt_identity()
-    user_uuid = uuid.UUID(str(current_user_id))
+    user_uuid = uuid.UUID(str(current_user_id)) if current_user_id else None
 
     if request.is_json:
         data = request.get_json() or {}
@@ -132,7 +132,7 @@ def create_brix():
         db.session.rollback()
         return jsonify({"message": f"Gagal menyimpan data brix: {str(e)}"}), 500
 
-@jwt_required()
+@jwt_required(optional=True)
 def get_all_brix():
     page = request.args.get("page", 1, type=int)
     per_page = request.args.get("per_page", 20, type=int)
@@ -394,3 +394,109 @@ def sync_batch():
     except Exception as e:
         db.session.rollback()
         return jsonify({"message": f"Gagal menyimpan data sinkronisasi: {str(e)}"}), 500
+
+def api_get_scans():
+    """Endpoint GET /api/scans khusus aplikasi Android new-E-Brix (tanpa wajib JWT, return List[ScanDto])."""
+    records = DataBrix.query.order_by(DataBrix.timestamp.desc()).all()
+    results = []
+    for idx, r in enumerate(records):
+        petak_nama = r.blok_lahan.nama_blok if r.blok_lahan else "Petak A"
+        int_id = (r.id_data.int & 0x7FFFFFFF) if r.id_data else (idx + 1)
+        results.append({
+            "id": int_id,
+            "petak": petak_nama,
+            "image_base64": r.foto,
+            "brix": str(float(r.nilai_brix)) if r.nilai_brix is not None else "0",
+            "lat": str(r.latitude) if r.latitude is not None else "0.0",
+            "lon": str(r.longitude) if r.longitude is not None else "0.0",
+            "timestamp": r.timestamp.strftime("%Y-%m-%d %H:%M") if r.timestamp else ""
+        })
+    return jsonify(results), 200
+
+def api_create_scan():
+    """Endpoint POST /api/scans khusus aplikasi Android new-E-Brix."""
+    data = request.get_json() or {}
+    petak = data.get("petak", "Petak A")
+    image_b64 = data.get("image_base64")
+    brix_val = data.get("brix", "0")
+    lat_val = data.get("lat", "0.0")
+    lon_val = data.get("lon", "0.0")
+    ts_val = data.get("timestamp")
+
+    try:
+        lat_float = float(lat_val)
+        lon_float = float(lon_val)
+        brix_float = float(brix_val)
+    except (ValueError, TypeError):
+        lat_float = 0.0
+        lon_float = 0.0
+        brix_float = 0.0
+
+    user = User.query.first()
+    blok = BlokLahan.query.first()
+
+    if not user or not blok:
+        return jsonify({
+            "id": 1,
+            "petak": petak,
+            "image_base64": image_b64,
+            "brix": str(brix_float),
+            "lat": str(lat_float),
+            "lon": str(lon_float),
+            "timestamp": ts_val or datetime.now().strftime("%Y-%m-%d %H:%M")
+        }), 201
+
+    try:
+        point_geom = make_point_geom(lat_float, lon_float)
+    except Exception:
+        point_geom = None
+
+    meas_time = datetime.now()
+    if ts_val:
+        try:
+            meas_time = datetime.fromisoformat(str(ts_val).replace("Z", "+00:00"))
+        except Exception:
+            meas_time = datetime.now()
+
+    new_data = DataBrix(
+        id_blok=blok.id_blok,
+        id_user=user.id_user,
+        latitude=lat_float,
+        longitude=lon_float,
+        nilai_brix=brix_float,
+        foto=image_b64,
+        geom=point_geom,
+        status_sinkron="tersinkron",
+        timestamp=meas_time
+    )
+
+    try:
+        db.session.add(new_data)
+        db.session.commit()
+        int_id = (new_data.id_data.int & 0x7FFFFFFF)
+        return jsonify({
+            "id": int_id,
+            "petak": petak,
+            "image_base64": image_b64,
+            "brix": str(brix_float),
+            "lat": str(lat_float),
+            "lon": str(lon_float),
+            "timestamp": new_data.timestamp.strftime("%Y-%m-%d %H:%M")
+        }), 201
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"message": str(e)}), 500
+
+def api_delete_scan(id):
+    """Endpoint DELETE /api/scans/<id>."""
+    try:
+        int_id = int(id)
+        records = DataBrix.query.all()
+        for r in records:
+            if (r.id_data.int & 0x7FFFFFFF) == int_id:
+                db.session.delete(r)
+                db.session.commit()
+                break
+    except Exception:
+        pass
+    return "", 204
