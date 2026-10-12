@@ -43,16 +43,26 @@ def create_app():
     from routes.prediksi_route import prediksi_bp
     from routes.export_route import export_bp
     from routes.rekomendasi_route import rekomendasi_bp
+    from routes.scans_route import scans_bp
 
-    app.register_blueprint(auth_bp)
-    app.register_blueprint(petani_bp)
-    app.register_blueprint(jenis_tebu_bp)
-    app.register_blueprint(lahan_bp)
-    app.register_blueprint(blok_lahan_bp)
-    app.register_blueprint(data_brix_bp)
-    app.register_blueprint(prediksi_bp)
-    app.register_blueprint(export_bp)
-    app.register_blueprint(rekomendasi_bp)
+    app.register_blueprint(scans_bp)
+
+    blueprints = [
+        auth_bp,
+        petani_bp,
+        jenis_tebu_bp,
+        lahan_bp,
+        blok_lahan_bp,
+        data_brix_bp,
+        prediksi_bp,
+        export_bp,
+        rekomendasi_bp,
+    ]
+
+    for bp in blueprints:
+        app.register_blueprint(bp)
+        app.register_blueprint(bp, url_prefix="/api", name=f"{bp.name}_api")
+        app.register_blueprint(bp, url_prefix="/api/v1", name=f"{bp.name}_apiv1")
 
     # JWT error handlers
     @jwt.unauthorized_loader
@@ -89,7 +99,17 @@ def create_app():
             "version": "2.0.0"
         }), 200
 
+    @app.route("/api/heatmap", methods=["GET"])
+    @app.route("/heatmap", methods=["GET"])
+    def get_heatmap():
+        return jsonify({
+            "status": "success",
+            "tileUrl": None,
+            "message": "Heatmap GEE"
+        }), 200
+
     return app
+
 
 app = create_app()
 

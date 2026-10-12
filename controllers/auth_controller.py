@@ -18,8 +18,8 @@ def register():
     if not username or not email or not password:
         return jsonify({"message": "username, email, dan password wajib diisi"}), 400
 
-    if role not in ["admin", "petani"]:
-        return jsonify({"message": "Role harus 'admin' atau 'petani'"}), 400
+    if role not in ["admin", "petani", "operator"]:
+        return jsonify({"message": "Role harus 'admin', 'operator', atau 'petani'"}), 400
 
     if User.query.filter_by(username=username).first():
         return jsonify({"message": "Username sudah digunakan"}), 409
@@ -72,31 +72,36 @@ def register():
 
 def login():
     data = request.get_json() or {}
-    email = data.get("email")
+    identifier = data.get("email") or data.get("username")
     password = data.get("password")
 
-    if not email or not password:
-        return jsonify({"message": "Email dan password wajib diisi"}), 400
+    if not identifier or not password:
+        return jsonify({"message": "Username/Email dan password wajib diisi"}), 400
 
-    user = User.query.filter_by(email=email).first()
+    user = User.query.filter(
+        (User.email == identifier) | (User.username == identifier)
+    ).first()
     if not user or not bcrypt.check_password_hash(user.password, password):
-        return jsonify({"message": "Email atau password salah"}), 401
+        return jsonify({"message": "Email/Username atau password salah"}), 401
 
-    if user.status == "nonaktif":
+    if user.status in ["nonaktif", "inactive"]:
         return jsonify({"message": "Akun Anda telah dinonaktifkan"}), 403
 
     access_token = create_access_token(identity=str(user.id_user))
+    user_info = {
+        "id_user": str(user.id_user),
+        "username": user.username,
+        "email": user.email,
+        "role": user.role,
+        "status": user.status
+    }
     return jsonify({
         "message": "Login berhasil",
         "access_token": access_token,
-        "data": {
-            "id_user": str(user.id_user),
-            "username": user.username,
-            "email": user.email,
-            "role": user.role,
-            "status": user.status
-        }
+        "user": user_info,
+        "data": user_info
     }), 200
+
 
 @jwt_required()
 def get_profile():

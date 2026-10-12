@@ -15,7 +15,7 @@ def create_blok_lahan():
     id_tebu = data.get("id_tebu")
     nama_blok = data.get("nama_blok")
     tanggal_tanam_raw = data.get("tanggal_tanam")
-    geom_data = data.get("geom")
+    geom_data = data.get("geom") or data.get("geojson")
 
     if not id_lahan or not nama_blok or not geom_data:
         return jsonify({"message": "id_lahan, nama_blok, dan geom (Polygon) wajib diisi"}), 400

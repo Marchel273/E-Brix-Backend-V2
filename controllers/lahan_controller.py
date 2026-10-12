@@ -11,19 +11,25 @@ def create_lahan():
     data = request.get_json() or {}
     id_petani = data.get("id_petani")
     nama_lahan = data.get("nama_lahan")
-    geom_data = data.get("geom")
+    geom_data = data.get("geom") or data.get("geojson")
 
-    if not id_petani or not nama_lahan or not geom_data:
-        return jsonify({"message": "id_petani, nama_lahan, dan geom (Polygon) wajib diisi"}), 400
+    if not nama_lahan or not geom_data:
+        return jsonify({"message": "nama_lahan dan geom/geojson (Polygon) wajib diisi"}), 400
 
-    try:
-        petani_uuid = uuid.UUID(str(id_petani))
-        petani = db.session.get(Petani, petani_uuid)
-    except Exception:
-        return jsonify({"message": "Format id_petani tidak valid"}), 400
-
-    if not petani:
-        return jsonify({"message": "Petani tidak ditemukan"}), 404
+    petani = None
+    if id_petani:
+        try:
+            petani_uuid = uuid.UUID(str(id_petani))
+            petani = db.session.get(Petani, petani_uuid)
+        except Exception:
+            return jsonify({"message": "Format id_petani tidak valid"}), 400
+        if not petani:
+            return jsonify({"message": "Petani tidak ditemukan"}), 404
+    else:
+        petani = Petani.query.first()
+        if not petani:
+            return jsonify({"message": "Belum ada data Petani di database untuk ditautkan"}), 400
+        petani_uuid = petani.id_petani
 
     try:
         wkb_geom = geojson_to_wkbelement(geom_data)
@@ -35,6 +41,7 @@ def create_lahan():
         nama_lahan=nama_lahan,
         geom=wkb_geom
     )
+
 
     try:
         db.session.add(new_lahan)

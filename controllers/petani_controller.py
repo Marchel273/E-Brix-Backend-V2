@@ -152,3 +152,120 @@ def delete_petani(id):
     except Exception as e:
         db.session.rollback()
         return jsonify({"message": f"Gagal menghapus petani: {str(e)}"}), 500
+
+# ── Admin Petani Endpoints (untuk Web Dashboard) ──
+
+def get_admin_petani_pending():
+    users = User.query.filter(User.role == "petani", User.status == "pending").all()
+    result = [{
+        "id_user": str(u.id_user),
+        "nama": u.petani.nama if u.petani else u.username,
+        "email": u.email,
+        "nomor_telepon": u.petani.nomor_telepon if (u.petani and u.petani.nomor_telepon) else "-",
+        "alamat": u.petani.alamat if (u.petani and u.petani.alamat) else "-",
+        "status": u.status
+    } for u in users]
+    return jsonify({"status": "success", "data": result}), 200
+
+def get_admin_petani_approved():
+    users = User.query.filter(User.role == "petani", User.status.in_(["aktif", "approved", "active"])).all()
+    result = [{
+        "id_user": str(u.id_user),
+        "nama": u.petani.nama if u.petani else u.username,
+        "email": u.email,
+        "nomor_telepon": u.petani.nomor_telepon if (u.petani and u.petani.nomor_telepon) else "-",
+        "alamat": u.petani.alamat if (u.petani and u.petani.alamat) else "-",
+        "status": u.status
+    } for u in users]
+    return jsonify({"status": "success", "data": result}), 200
+
+def get_admin_petani_inactive():
+    users = User.query.filter(User.role == "petani", User.status.in_(["nonaktif", "inactive", "rejected"])).all()
+    result = [{
+        "id_user": str(u.id_user),
+        "nama": u.petani.nama if u.petani else u.username,
+        "email": u.email,
+        "nomor_telepon": u.petani.nomor_telepon if (u.petani and u.petani.nomor_telepon) else "-",
+        "alamat": u.petani.alamat if (u.petani and u.petani.alamat) else "-",
+        "status": u.status
+    } for u in users]
+    return jsonify({"status": "success", "data": result}), 200
+
+def review_admin_petani(id_user):
+    data = request.get_json() or {}
+    action = data.get("action")
+    try:
+        user_uuid = uuid.UUID(str(id_user))
+        user = db.session.get(User, user_uuid)
+    except Exception:
+        return jsonify({"message": "Format id_user tidak valid"}), 400
+
+    if not user:
+        return jsonify({"message": "User tidak ditemukan"}), 404
+
+    if action in ["approve", "activate"]:
+        user.status = "aktif"
+    elif action in ["reject", "deactivate"]:
+        user.status = "nonaktif"
+    else:
+        return jsonify({"message": f"Action '{action}' tidak dikenal"}), 400
+
+    try:
+        db.session.commit()
+        return jsonify({"status": "success", "message": f"Status user berhasil diubah ke {user.status}"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"message": str(e)}), 500
+
+def edit_admin_petani(id_user):
+    data = request.get_json() or {}
+    try:
+        user_uuid = uuid.UUID(str(id_user))
+        user = db.session.get(User, user_uuid)
+    except Exception:
+        return jsonify({"message": "Format id_user tidak valid"}), 400
+
+    if not user:
+        return jsonify({"message": "User tidak ditemukan"}), 404
+
+    if not user.petani:
+        new_petani = Petani(
+            id_user=user.id_user,
+            nama=data.get("nama") or user.username,
+            nomor_telepon=data.get("nomor_telepon"),
+            alamat=data.get("alamat")
+        )
+        db.session.add(new_petani)
+    else:
+        if "nama" in data:
+            user.petani.nama = data["nama"]
+        if "nomor_telepon" in data:
+            user.petani.nomor_telepon = data["nomor_telepon"]
+        if "alamat" in data:
+            user.petani.alamat = data["alamat"]
+
+    try:
+        db.session.commit()
+        return jsonify({"status": "success", "message": "Profil berhasil diperbarui"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"message": str(e)}), 500
+
+def delete_admin_petani(id_user):
+    try:
+        user_uuid = uuid.UUID(str(id_user))
+        user = db.session.get(User, user_uuid)
+    except Exception:
+        return jsonify({"message": "Format id_user tidak valid"}), 400
+
+    if not user:
+        return jsonify({"message": "User tidak ditemukan"}), 404
+
+    try:
+        db.session.delete(user)
+        db.session.commit()
+        return jsonify({"status": "success", "message": "User berhasil dihapus"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"message": str(e)}), 500
+

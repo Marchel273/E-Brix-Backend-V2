@@ -11,3 +11,10 @@ data_brix_bp.add_url_rule("/data-brix/<string:id>", view_func=get_brix_by_id, me
 data_brix_bp.add_url_rule("/data-brix/<string:id>", view_func=update_brix, methods=["PUT"])
 data_brix_bp.add_url_rule("/data-brix/<string:id>", view_func=delete_brix, methods=["DELETE"])
 data_brix_bp.add_url_rule("/data-brix/sync", view_func=sync_batch, methods=["POST"])
+
+# Alias /scans agar kompatibel dengan frontend Android
+data_brix_bp.add_url_rule("/scans", view_func=create_brix, methods=["POST"])
+data_brix_bp.add_url_rule("/scans", view_func=get_all_brix, methods=["GET"])
+data_brix_bp.add_url_rule("/scans/<string:id>", view_func=get_brix_by_id, methods=["GET"])
+data_brix_bp.add_url_rule("/scans/<string:id>", view_func=update_brix, methods=["PUT"])
+data_brix_bp.add_url_rule("/scans/<string:id>", view_func=delete_brix, methods=["DELETE"])

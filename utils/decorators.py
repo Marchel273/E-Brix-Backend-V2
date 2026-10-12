@@ -23,6 +23,42 @@ def admin_required():
         return decorator
     return wrapper
 
+def operator_required():
+    """Decorator: hanya user dengan role 'operator' yang boleh akses."""
+    def wrapper(fn):
+        @wraps(fn)
+        def decorator(*args, **kwargs):
+            verify_jwt_in_request()
+            user_id = get_jwt_identity()
+            try:
+                user_uuid = uuid.UUID(user_id) if isinstance(user_id, str) else user_id
+                user = db.session.get(User, user_uuid)
+            except Exception:
+                user = None
+            if not user or user.role != 'operator':
+                return jsonify({"message": "Akses ditolak. Hanya operator yang diizinkan."}), 403
+            return fn(*args, **kwargs)
+        return decorator
+    return wrapper
+
+def admin_or_operator_required():
+    """Decorator: user dengan role 'admin' atau 'operator' yang boleh akses."""
+    def wrapper(fn):
+        @wraps(fn)
+        def decorator(*args, **kwargs):
+            verify_jwt_in_request()
+            user_id = get_jwt_identity()
+            try:
+                user_uuid = uuid.UUID(user_id) if isinstance(user_id, str) else user_id
+                user = db.session.get(User, user_uuid)
+            except Exception:
+                user = None
+            if not user or user.role not in ['admin', 'operator']:
+                return jsonify({"message": "Akses ditolak. Hanya admin dan operator yang diizinkan."}), 403
+            return fn(*args, **kwargs)
+        return decorator
+    return wrapper
+
 def petani_required():
     """Decorator: hanya user dengan role 'petani' yang boleh akses."""
     def wrapper(fn):
@@ -40,3 +76,4 @@ def petani_required():
             return fn(*args, **kwargs)
         return decorator
     return wrapper
+
