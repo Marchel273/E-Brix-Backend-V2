@@ -44,6 +44,7 @@ def create_app():
     from routes.export_route import export_bp
     from routes.rekomendasi_route import rekomendasi_bp
     from routes.scans_route import scans_bp
+    from routes.ml_route import ml_bp
 
     app.register_blueprint(scans_bp)
 
@@ -57,6 +58,7 @@ def create_app():
         prediksi_bp,
         export_bp,
         rekomendasi_bp,
+        ml_bp,
     ]
 
     for bp in blueprints:

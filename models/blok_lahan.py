@@ -1,4 +1,5 @@
 import uuid
+from typing import Optional
 from extensions import db
 from sqlalchemy.dialects.postgresql import UUID
 from geoalchemy2 import Geometry
@@ -28,3 +29,40 @@ class BlokLahan(db.Model):
 
     # Relationships
     data_brix_list = db.relationship("DataBrix", backref="blok_lahan", cascade="all, delete-orphan")
+
+    def update_rata_brix(self) -> Optional[float]:
+        """Hitung ulang rata-rata nilai brix dari seluruh sampel di blok ini."""
+        if not self.data_brix_list:
+            self.rata_brix = None
+            return None
+        valid_values = [float(d.nilai_brix) for d in self.data_brix_list if d.nilai_brix is not None]
+        if valid_values:
+            avg = round(sum(valid_values) / len(valid_values), 2)
+            self.rata_brix = avg
+            return avg
+        self.rata_brix = None
+        return None
+
+    def get_rekomendasi_panen(self) -> dict:
+        """Evaluasi kesiapan panen blok terhadap ambang batas varietas tebu."""
+        ambang = float(self.jenis_tebu.ambang_panen) if (self.jenis_tebu and self.jenis_tebu.ambang_panen) else 19.0
+        rata = float(self.rata_brix) if self.rata_brix is not None else 0.0
+
+        if rata >= ambang:
+            status = "Siap Panen (Prioritas 1)"
+            level = "high"
+        elif rata >= ambang * 0.85:
+            status = "Hampir Siap / Waspada (Prioritas 2)"
+            level = "medium"
+        else:
+            status = "Belum Siap / Vegetatif (Prioritas 3)"
+            level = "low"
+
+        return {
+            "id_blok": str(self.id_blok),
+            "nama_blok": self.nama_blok,
+            "rata_brix": rata,
+            "ambang_panen": ambang,
+            "status_panen": status,
+            "level": level
+        }
