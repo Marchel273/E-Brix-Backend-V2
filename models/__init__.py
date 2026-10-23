@@ -6,5 +6,6 @@ from models.lahan import Lahan
 from models.blok_lahan import BlokLahan
 from models.data_brix import DataBrix
 from models.prediksi import Prediksi
+from models.riwayat_prediksi import RiwayatPrediksiML
 
-__all__ = ["User", "Petani", "JenisTebu", "Lahan", "BlokLahan", "DataBrix", "Prediksi"]
+__all__ = ["User", "Petani", "JenisTebu", "Lahan", "BlokLahan", "DataBrix", "Prediksi", "RiwayatPrediksiML"]

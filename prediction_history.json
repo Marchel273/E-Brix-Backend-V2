@@ -1,1 +1,858 @@
-[]
+[
+  {
+    "id": 1,
+    "timestamp": "2026-10-19 15:01:22",
+    "input": {
+      "Month": "Sep",
+      "Temp_Avg_C": 29,
+      "Rainfall_Total_mm": 1200,
+      "Soil_Type": "Alluvial",
+      "Irrigation_Method_Type": "Drip",
+      "Water_Quality_Category": "Good",
+      "Variety": "Co0238",
+      "Planting_Method": "Straight Row",
+      "Fertilizer_Type": "DAP",
+      "Weed_Control": "Manual",
+      "Pest_Level": "Low"
+    },
+    "hasil": {
+      "hasil_panen": 512.62,
+      "kadar_gula_brix": 19.44,
+      "durasi_panen_hari": 331.0,
+      "durasi_panen_bulan": 11,
+      "durasi_panen_sisa_hari": 0,
+      "keparahan_penyakit": "Rendah",
+      "keparahan_penyakit_en": "Low",
+      "kepercayaan_penyakit": 90.5,
+      "probabilitas_penyakit": {
+        "Tinggi": 1.8,
+        "Rendah": 90.5,
+        "Sedang": 7.7
+      },
+      "perhitungan_gula": {
+        "brix": 19.44,
+        "hk_standar_persen": 80,
+        "hk_optimis_persen": 85,
+        "pol_standar": 15.55,
+        "pol_optimis": 16.53,
+        "nn_standar": 14.0,
+        "nn_optimis": 15.36,
+        "nn_cepat": 14.0,
+        "potensi_gula_standar": 71.76,
+        "potensi_gula_optimis": 78.74
+      },
+      "potensi_gula": 71.76,
+      "potensi_gula_kristal": 71.14,
+      "produksi_nira": 35883.2
+    },
+    "analisis_musim": {
+      "musim_terbaik": "Kemarau",
+      "musim_terbaik_emoji": "☀️",
+      "bulan_terbaik_en": "Apr",
+      "bulan_terbaik_id": "April",
+      "skor_terbaik": 65.0,
+      "penghujan": {
+        "avg_yield": 512.74,
+        "avg_brix": 19.43,
+        "avg_duration": 331.0,
+        "avg_disease_score": 1.0,
+        "avg_composite_score": 49.0,
+        "periode": "Oktober – Maret"
+      },
+      "kemarau": {
+        "avg_yield": 512.76,
+        "avg_brix": 19.43,
+        "avg_duration": 331.0,
+        "avg_disease_score": 1.0,
+        "avg_composite_score": 55.6,
+        "periode": "April – September"
+      },
+      "selisih_persen": 6.6,
+      "penjelasan": "Berdasarkan analisis AI terhadap 12 bulan tanam, Musim Kemarau (Apr–Sep) lebih unggul dengan skor rata-rata 55.6 vs 49.0 (Penghujan). Intensitas cahaya matahari yang tinggi memaksimalkan fotosintesis dan akumulasi sukrosa. Bulan terbaik: April (skor 65.0).",
+      "detail_bulanan": [
+        {
+          "bulan_en": "Jan",
+          "bulan_id": "Januari",
+          "musim": "Penghujan",
+          "yield": 512.77,
+          "brix": 19.43,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 46.8
+        },
+        {
+          "bulan_en": "Feb",
+          "bulan_id": "Februari",
+          "musim": "Penghujan",
+          "yield": 512.8,
+          "brix": 19.43,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 50.9
+        },
+        {
+          "bulan_en": "Mar",
+          "bulan_id": "Maret",
+          "musim": "Penghujan",
+          "yield": 512.74,
+          "brix": 19.43,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 56.4
+        },
+        {
+          "bulan_en": "Apr",
+          "bulan_id": "April",
+          "musim": "Kemarau",
+          "yield": 512.9,
+          "brix": 19.43,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 65.0
+        },
+        {
+          "bulan_en": "May",
+          "bulan_id": "Mei",
+          "musim": "Kemarau",
+          "yield": 512.72,
+          "brix": 19.43,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 52.8
+        },
+        {
+          "bulan_en": "Jun",
+          "bulan_id": "Juni",
+          "musim": "Kemarau",
+          "yield": 512.77,
+          "brix": 19.43,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 60.2
+        },
+        {
+          "bulan_en": "Jul",
+          "bulan_id": "Juli",
+          "musim": "Kemarau",
+          "yield": 512.77,
+          "brix": 19.43,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 46.8
+        },
+        {
+          "bulan_en": "Aug",
+          "bulan_id": "Agustus",
+          "musim": "Kemarau",
+          "yield": 512.78,
+          "brix": 19.43,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 48.7
+        },
+        {
+          "bulan_en": "Sep",
+          "bulan_id": "September",
+          "musim": "Kemarau",
+          "yield": 512.62,
+          "brix": 19.44,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 60.0
+        },
+        {
+          "bulan_en": "Oct",
+          "bulan_id": "Oktober",
+          "musim": "Penghujan",
+          "yield": 512.62,
+          "brix": 19.43,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 38.4
+        },
+        {
+          "bulan_en": "Nov",
+          "bulan_id": "November",
+          "musim": "Penghujan",
+          "yield": 512.72,
+          "brix": 19.43,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 52.8
+        },
+        {
+          "bulan_en": "Dec",
+          "bulan_id": "Desember",
+          "musim": "Penghujan",
+          "yield": 512.78,
+          "brix": 19.43,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 48.7
+        }
+      ]
+    },
+    "rekomendasi": {
+      "waktu_panen": "Jadwalkan panen 330 hari (~11 bulan 0 hari) lagi saat rendemen memuncak.",
+      "tindakan_hasil": "Pertahankan jadwal pengairan dan nutrisi saat ini. Hasil panen diprediksi sudah optimal.",
+      "tindakan_brix": "Kadar nira diprediksi sangat baik. Lakukan tebang-angkut-giling dengan cepat agar tidak terjadi inversi sukrosa.",
+      "tindakan_penyakit": "Risiko rendah. Tetap lakukan pemantauan rutin dan kendalikan gulma di sekitar tanaman tebu.",
+      "musim_tanam": "Berdasarkan analisis AI terhadap 12 bulan tanam, Musim Kemarau (Apr–Sep) lebih unggul dengan skor rata-rata 55.6 vs 49.0 (Penghujan). Intensitas cahaya matahari yang tinggi memaksimalkan fotosintesis dan akumulasi sukrosa. Bulan terbaik: April (skor 65.0).",
+      "gula": "Rumus Winter-Carp: Pol = Brix × HK, lalu NN = Pol − 0.4 × (Brix − Pol). Dengan Brix = 19.44% dan HK = 80%, diperoleh Pol = 15.55%, Nilai Nira (NN) = 14.00 gram gula per 100g nira. Rumus cepat: NN = 0.72 × 19.44 = 14.00 g/100g nira. Potensi total gula dari panen: 71.76 – 78.74 Quintal/Acre."
+    }
+  },
+  {
+    "id": 2,
+    "timestamp": "2026-10-19 15:02:09",
+    "input": {
+      "Month": "Sep",
+      "Temp_Avg_C": 29,
+      "Rainfall_Total_mm": 1200,
+      "Soil_Type": "Alluvial",
+      "Irrigation_Method_Type": "Drip",
+      "Water_Quality_Category": "Good",
+      "Variety": "Co98014",
+      "Planting_Method": "Straight Row",
+      "Fertilizer_Type": "DAP",
+      "Weed_Control": "Manual",
+      "Pest_Level": "Low"
+    },
+    "hasil": {
+      "hasil_panen": 512.62,
+      "kadar_gula_brix": 19.44,
+      "durasi_panen_hari": 331.0,
+      "durasi_panen_bulan": 11,
+      "durasi_panen_sisa_hari": 0,
+      "keparahan_penyakit": "Rendah",
+      "keparahan_penyakit_en": "Low",
+      "kepercayaan_penyakit": 90.6,
+      "probabilitas_penyakit": {
+        "Tinggi": 1.9,
+        "Rendah": 90.6,
+        "Sedang": 7.5
+      },
+      "perhitungan_gula": {
+        "brix": 19.44,
+        "hk_standar_persen": 80,
+        "hk_optimis_persen": 85,
+        "pol_standar": 15.55,
+        "pol_optimis": 16.52,
+        "nn_standar": 14.0,
+        "nn_optimis": 15.36,
+        "nn_cepat": 14.0,
+        "potensi_gula_standar": 71.75,
+        "potensi_gula_optimis": 78.72
+      },
+      "potensi_gula": 71.75,
+      "potensi_gula_kristal": 71.14,
+      "produksi_nira": 35883.2
+    },
+    "analisis_musim": {
+      "musim_terbaik": "Kemarau",
+      "musim_terbaik_emoji": "☀️",
+      "bulan_terbaik_en": "Apr",
+      "bulan_terbaik_id": "April",
+      "skor_terbaik": 65.0,
+      "penghujan": {
+        "avg_yield": 512.74,
+        "avg_brix": 19.42,
+        "avg_duration": 331.0,
+        "avg_disease_score": 1.0,
+        "avg_composite_score": 49.0,
+        "periode": "Oktober – Maret"
+      },
+      "kemarau": {
+        "avg_yield": 512.76,
+        "avg_brix": 19.43,
+        "avg_duration": 331.0,
+        "avg_disease_score": 1.0,
+        "avg_composite_score": 55.6,
+        "periode": "April – September"
+      },
+      "selisih_persen": 6.6,
+      "penjelasan": "Berdasarkan analisis AI terhadap 12 bulan tanam, Musim Kemarau (Apr–Sep) lebih unggul dengan skor rata-rata 55.6 vs 49.0 (Penghujan). Intensitas cahaya matahari yang tinggi memaksimalkan fotosintesis dan akumulasi sukrosa. Bulan terbaik: April (skor 65.0).",
+      "detail_bulanan": [
+        {
+          "bulan_en": "Jan",
+          "bulan_id": "Januari",
+          "musim": "Penghujan",
+          "yield": 512.77,
+          "brix": 19.42,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 46.8
+        },
+        {
+          "bulan_en": "Feb",
+          "bulan_id": "Februari",
+          "musim": "Penghujan",
+          "yield": 512.8,
+          "brix": 19.42,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 50.9
+        },
+        {
+          "bulan_en": "Mar",
+          "bulan_id": "Maret",
+          "musim": "Penghujan",
+          "yield": 512.74,
+          "brix": 19.43,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 56.4
+        },
+        {
+          "bulan_en": "Apr",
+          "bulan_id": "April",
+          "musim": "Kemarau",
+          "yield": 512.9,
+          "brix": 19.42,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 65.0
+        },
+        {
+          "bulan_en": "May",
+          "bulan_id": "Mei",
+          "musim": "Kemarau",
+          "yield": 512.72,
+          "brix": 19.43,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 52.8
+        },
+        {
+          "bulan_en": "Jun",
+          "bulan_id": "Juni",
+          "musim": "Kemarau",
+          "yield": 512.77,
+          "brix": 19.43,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 60.2
+        },
+        {
+          "bulan_en": "Jul",
+          "bulan_id": "Juli",
+          "musim": "Kemarau",
+          "yield": 512.77,
+          "brix": 19.42,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 46.8
+        },
+        {
+          "bulan_en": "Aug",
+          "bulan_id": "Agustus",
+          "musim": "Kemarau",
+          "yield": 512.78,
+          "brix": 19.42,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 48.7
+        },
+        {
+          "bulan_en": "Sep",
+          "bulan_id": "September",
+          "musim": "Kemarau",
+          "yield": 512.62,
+          "brix": 19.44,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 60.0
+        },
+        {
+          "bulan_en": "Oct",
+          "bulan_id": "Oktober",
+          "musim": "Penghujan",
+          "yield": 512.62,
+          "brix": 19.43,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 38.4
+        },
+        {
+          "bulan_en": "Nov",
+          "bulan_id": "November",
+          "musim": "Penghujan",
+          "yield": 512.72,
+          "brix": 19.43,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 52.8
+        },
+        {
+          "bulan_en": "Dec",
+          "bulan_id": "Desember",
+          "musim": "Penghujan",
+          "yield": 512.78,
+          "brix": 19.42,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 48.7
+        }
+      ]
+    },
+    "rekomendasi": {
+      "waktu_panen": "Jadwalkan panen 330 hari (~11 bulan 0 hari) lagi saat rendemen memuncak.",
+      "tindakan_hasil": "Pertahankan jadwal pengairan dan nutrisi saat ini. Hasil panen diprediksi sudah optimal.",
+      "tindakan_brix": "Kadar nira diprediksi sangat baik. Lakukan tebang-angkut-giling dengan cepat agar tidak terjadi inversi sukrosa.",
+      "tindakan_penyakit": "Risiko rendah. Tetap lakukan pemantauan rutin dan kendalikan gulma di sekitar tanaman tebu.",
+      "musim_tanam": "Berdasarkan analisis AI terhadap 12 bulan tanam, Musim Kemarau (Apr–Sep) lebih unggul dengan skor rata-rata 55.6 vs 49.0 (Penghujan). Intensitas cahaya matahari yang tinggi memaksimalkan fotosintesis dan akumulasi sukrosa. Bulan terbaik: April (skor 65.0).",
+      "gula": "Rumus Winter-Carp: Pol = Brix × HK, lalu NN = Pol − 0.4 × (Brix − Pol). Dengan Brix = 19.44% dan HK = 80%, diperoleh Pol = 15.55%, Nilai Nira (NN) = 14.00 gram gula per 100g nira. Rumus cepat: NN = 0.72 × 19.44 = 14.00 g/100g nira. Potensi total gula dari panen: 71.75 – 78.72 Quintal/Acre."
+    }
+  },
+  {
+    "id": 3,
+    "timestamp": "2026-10-19 15:02:20",
+    "input": {
+      "Month": "Sep",
+      "Temp_Avg_C": 29,
+      "Rainfall_Total_mm": 1200,
+      "Soil_Type": "Alluvial",
+      "Irrigation_Method_Type": "Drip",
+      "Water_Quality_Category": "Good",
+      "Variety": "CoJ64",
+      "Planting_Method": "Straight Row",
+      "Fertilizer_Type": "DAP",
+      "Weed_Control": "Manual",
+      "Pest_Level": "Low"
+    },
+    "hasil": {
+      "hasil_panen": 512.62,
+      "kadar_gula_brix": 19.44,
+      "durasi_panen_hari": 331.0,
+      "durasi_panen_bulan": 11,
+      "durasi_panen_sisa_hari": 0,
+      "keparahan_penyakit": "Rendah",
+      "keparahan_penyakit_en": "Low",
+      "kepercayaan_penyakit": 90.7,
+      "probabilitas_penyakit": {
+        "Tinggi": 1.9,
+        "Rendah": 90.7,
+        "Sedang": 7.4
+      },
+      "perhitungan_gula": {
+        "brix": 19.44,
+        "hk_standar_persen": 80,
+        "hk_optimis_persen": 85,
+        "pol_standar": 15.55,
+        "pol_optimis": 16.52,
+        "nn_standar": 14.0,
+        "nn_optimis": 15.36,
+        "nn_cepat": 14.0,
+        "potensi_gula_standar": 71.75,
+        "potensi_gula_optimis": 78.72
+      },
+      "potensi_gula": 71.75,
+      "potensi_gula_kristal": 71.14,
+      "produksi_nira": 35883.2
+    },
+    "analisis_musim": {
+      "musim_terbaik": "Kemarau",
+      "musim_terbaik_emoji": "☀️",
+      "bulan_terbaik_en": "Apr",
+      "bulan_terbaik_id": "April",
+      "skor_terbaik": 65.0,
+      "penghujan": {
+        "avg_yield": 512.74,
+        "avg_brix": 19.42,
+        "avg_duration": 331.0,
+        "avg_disease_score": 1.0,
+        "avg_composite_score": 49.0,
+        "periode": "Oktober – Maret"
+      },
+      "kemarau": {
+        "avg_yield": 512.76,
+        "avg_brix": 19.43,
+        "avg_duration": 331.0,
+        "avg_disease_score": 1.0,
+        "avg_composite_score": 55.6,
+        "periode": "April – September"
+      },
+      "selisih_persen": 6.6,
+      "penjelasan": "Berdasarkan analisis AI terhadap 12 bulan tanam, Musim Kemarau (Apr–Sep) lebih unggul dengan skor rata-rata 55.6 vs 49.0 (Penghujan). Intensitas cahaya matahari yang tinggi memaksimalkan fotosintesis dan akumulasi sukrosa. Bulan terbaik: April (skor 65.0).",
+      "detail_bulanan": [
+        {
+          "bulan_en": "Jan",
+          "bulan_id": "Januari",
+          "musim": "Penghujan",
+          "yield": 512.77,
+          "brix": 19.42,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 46.8
+        },
+        {
+          "bulan_en": "Feb",
+          "bulan_id": "Februari",
+          "musim": "Penghujan",
+          "yield": 512.8,
+          "brix": 19.42,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 50.9
+        },
+        {
+          "bulan_en": "Mar",
+          "bulan_id": "Maret",
+          "musim": "Penghujan",
+          "yield": 512.74,
+          "brix": 19.43,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 56.4
+        },
+        {
+          "bulan_en": "Apr",
+          "bulan_id": "April",
+          "musim": "Kemarau",
+          "yield": 512.9,
+          "brix": 19.42,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 65.0
+        },
+        {
+          "bulan_en": "May",
+          "bulan_id": "Mei",
+          "musim": "Kemarau",
+          "yield": 512.72,
+          "brix": 19.43,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 52.8
+        },
+        {
+          "bulan_en": "Jun",
+          "bulan_id": "Juni",
+          "musim": "Kemarau",
+          "yield": 512.77,
+          "brix": 19.43,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 60.2
+        },
+        {
+          "bulan_en": "Jul",
+          "bulan_id": "Juli",
+          "musim": "Kemarau",
+          "yield": 512.77,
+          "brix": 19.42,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 46.8
+        },
+        {
+          "bulan_en": "Aug",
+          "bulan_id": "Agustus",
+          "musim": "Kemarau",
+          "yield": 512.78,
+          "brix": 19.42,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 48.7
+        },
+        {
+          "bulan_en": "Sep",
+          "bulan_id": "September",
+          "musim": "Kemarau",
+          "yield": 512.62,
+          "brix": 19.44,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 60.0
+        },
+        {
+          "bulan_en": "Oct",
+          "bulan_id": "Oktober",
+          "musim": "Penghujan",
+          "yield": 512.62,
+          "brix": 19.43,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 38.4
+        },
+        {
+          "bulan_en": "Nov",
+          "bulan_id": "November",
+          "musim": "Penghujan",
+          "yield": 512.72,
+          "brix": 19.43,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 52.8
+        },
+        {
+          "bulan_en": "Dec",
+          "bulan_id": "Desember",
+          "musim": "Penghujan",
+          "yield": 512.78,
+          "brix": 19.42,
+          "duration": 331.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 48.7
+        }
+      ]
+    },
+    "rekomendasi": {
+      "waktu_panen": "Jadwalkan panen 330 hari (~11 bulan 0 hari) lagi saat rendemen memuncak.",
+      "tindakan_hasil": "Pertahankan jadwal pengairan dan nutrisi saat ini. Hasil panen diprediksi sudah optimal.",
+      "tindakan_brix": "Kadar nira diprediksi sangat baik. Lakukan tebang-angkut-giling dengan cepat agar tidak terjadi inversi sukrosa.",
+      "tindakan_penyakit": "Risiko rendah. Tetap lakukan pemantauan rutin dan kendalikan gulma di sekitar tanaman tebu.",
+      "musim_tanam": "Berdasarkan analisis AI terhadap 12 bulan tanam, Musim Kemarau (Apr–Sep) lebih unggul dengan skor rata-rata 55.6 vs 49.0 (Penghujan). Intensitas cahaya matahari yang tinggi memaksimalkan fotosintesis dan akumulasi sukrosa. Bulan terbaik: April (skor 65.0).",
+      "gula": "Rumus Winter-Carp: Pol = Brix × HK, lalu NN = Pol − 0.4 × (Brix − Pol). Dengan Brix = 19.44% dan HK = 80%, diperoleh Pol = 15.55%, Nilai Nira (NN) = 14.00 gram gula per 100g nira. Rumus cepat: NN = 0.72 × 19.44 = 14.00 g/100g nira. Potensi total gula dari panen: 71.75 – 78.72 Quintal/Acre."
+    }
+  },
+  {
+    "id": 4,
+    "timestamp": "2026-10-20 08:48:51",
+    "input": {
+      "Month": "Aug",
+      "Temp_Avg_C": 28.5,
+      "Rainfall_Total_mm": 1350,
+      "Soil_Type": "Alluvial",
+      "Irrigation_Method_Type": "Drip",
+      "Water_Quality_Category": "Good",
+      "Variety": "Co0238",
+      "Planting_Method": "Straight Row",
+      "Fertilizer_Type": "DAP",
+      "Weed_Control": "Manual",
+      "Pest_Level": "Low"
+    },
+    "hasil": {
+      "hasil_panen": 512.17,
+      "kadar_gula_brix": 19.43,
+      "durasi_panen_hari": 324.0,
+      "durasi_panen_bulan": 10,
+      "durasi_panen_sisa_hari": 23,
+      "keparahan_penyakit": "Rendah",
+      "keparahan_penyakit_en": "Low",
+      "kepercayaan_penyakit": 86.4,
+      "probabilitas_penyakit": {
+        "Tinggi": 2.8,
+        "Rendah": 86.4,
+        "Sedang": 10.8
+      },
+      "perhitungan_gula": {
+        "brix": 19.43,
+        "hk_standar_persen": 80,
+        "hk_optimis_persen": 85,
+        "pol_standar": 15.54,
+        "pol_optimis": 16.51,
+        "nn_standar": 13.99,
+        "nn_optimis": 15.35,
+        "nn_cepat": 13.99,
+        "potensi_gula_standar": 71.64,
+        "potensi_gula_optimis": 78.6
+      },
+      "potensi_gula": 71.64,
+      "potensi_gula_kristal": 71.15,
+      "produksi_nira": 35851.96
+    },
+    "analisis_musim": {
+      "musim_terbaik": "Kemarau",
+      "musim_terbaik_emoji": "☀️",
+      "bulan_terbaik_en": "Apr",
+      "bulan_terbaik_id": "April",
+      "skor_terbaik": 65.0,
+      "penghujan": {
+        "avg_yield": 512.13,
+        "avg_brix": 19.43,
+        "avg_duration": 324.0,
+        "avg_disease_score": 1.0,
+        "avg_composite_score": 49.0,
+        "periode": "Oktober – Maret"
+      },
+      "kemarau": {
+        "avg_yield": 512.15,
+        "avg_brix": 19.43,
+        "avg_duration": 323.0,
+        "avg_disease_score": 1.0,
+        "avg_composite_score": 55.6,
+        "periode": "April – September"
+      },
+      "selisih_persen": 6.6,
+      "penjelasan": "Berdasarkan analisis AI terhadap 12 bulan tanam, Musim Kemarau (Apr–Sep) lebih unggul dengan skor rata-rata 55.6 vs 49.0 (Penghujan). Intensitas cahaya matahari yang tinggi memaksimalkan fotosintesis dan akumulasi sukrosa. Bulan terbaik: April (skor 65.0).",
+      "detail_bulanan": [
+        {
+          "bulan_en": "Jan",
+          "bulan_id": "Januari",
+          "musim": "Penghujan",
+          "yield": 512.16,
+          "brix": 19.43,
+          "duration": 324.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 46.8
+        },
+        {
+          "bulan_en": "Feb",
+          "bulan_id": "Februari",
+          "musim": "Penghujan",
+          "yield": 512.19,
+          "brix": 19.43,
+          "duration": 324.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 50.9
+        },
+        {
+          "bulan_en": "Mar",
+          "bulan_id": "Maret",
+          "musim": "Penghujan",
+          "yield": 512.13,
+          "brix": 19.43,
+          "duration": 324.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 56.4
+        },
+        {
+          "bulan_en": "Apr",
+          "bulan_id": "April",
+          "musim": "Kemarau",
+          "yield": 512.28,
+          "brix": 19.43,
+          "duration": 323.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 65.0
+        },
+        {
+          "bulan_en": "May",
+          "bulan_id": "Mei",
+          "musim": "Kemarau",
+          "yield": 512.11,
+          "brix": 19.43,
+          "duration": 324.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 52.8
+        },
+        {
+          "bulan_en": "Jun",
+          "bulan_id": "Juni",
+          "musim": "Kemarau",
+          "yield": 512.16,
+          "brix": 19.43,
+          "duration": 324.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 60.2
+        },
+        {
+          "bulan_en": "Jul",
+          "bulan_id": "Juli",
+          "musim": "Kemarau",
+          "yield": 512.16,
+          "brix": 19.43,
+          "duration": 324.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 46.8
+        },
+        {
+          "bulan_en": "Aug",
+          "bulan_id": "Agustus",
+          "musim": "Kemarau",
+          "yield": 512.17,
+          "brix": 19.43,
+          "duration": 324.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 48.7
+        },
+        {
+          "bulan_en": "Sep",
+          "bulan_id": "September",
+          "musim": "Kemarau",
+          "yield": 512.01,
+          "brix": 19.44,
+          "duration": 323.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 60.0
+        },
+        {
+          "bulan_en": "Oct",
+          "bulan_id": "Oktober",
+          "musim": "Penghujan",
+          "yield": 512.01,
+          "brix": 19.43,
+          "duration": 324.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 38.4
+        },
+        {
+          "bulan_en": "Nov",
+          "bulan_id": "November",
+          "musim": "Penghujan",
+          "yield": 512.11,
+          "brix": 19.43,
+          "duration": 324.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 52.8
+        },
+        {
+          "bulan_en": "Dec",
+          "bulan_id": "Desember",
+          "musim": "Penghujan",
+          "yield": 512.17,
+          "brix": 19.43,
+          "duration": 324.0,
+          "disease": "Rendah",
+          "disease_en": "Low",
+          "score": 48.7
+        }
+      ]
+    },
+    "rekomendasi": {
+      "waktu_panen": "Jadwalkan panen 323 hari (~10 bulan 23 hari) lagi saat rendemen memuncak.",
+      "tindakan_hasil": "Pertahankan jadwal pengairan dan nutrisi saat ini. Hasil panen diprediksi sudah optimal.",
+      "tindakan_brix": "Kadar nira diprediksi sangat baik. Lakukan tebang-angkut-giling dengan cepat agar tidak terjadi inversi sukrosa.",
+      "tindakan_penyakit": "Risiko rendah. Tetap lakukan pemantauan rutin dan kendalikan gulma di sekitar tanaman tebu.",
+      "musim_tanam": "Berdasarkan analisis AI terhadap 12 bulan tanam, Musim Kemarau (Apr–Sep) lebih unggul dengan skor rata-rata 55.6 vs 49.0 (Penghujan). Intensitas cahaya matahari yang tinggi memaksimalkan fotosintesis dan akumulasi sukrosa. Bulan terbaik: April (skor 65.0).",
+      "gula": "Rumus Winter-Carp: Pol = Brix × HK, lalu NN = Pol − 0.4 × (Brix − Pol). Dengan Brix = 19.43% dan HK = 80%, diperoleh Pol = 15.54%, Nilai Nira (NN) = 13.99 gram gula per 100g nira. Rumus cepat: NN = 0.72 × 19.43 = 13.99 g/100g nira. Potensi total gula dari panen: 71.64 – 78.60 Quintal/Acre."
+    }
+  }
+]
