@@ -10,6 +10,12 @@
 - **Pemetaan Geospasial (PostGIS)**: Penyimpanan data batas lahan (Polygon) dan titik lokasi sampel pengukuran (Point).
 - **Integrasi Scan & Data Brix**: Sinkronisasi data pembacaan refraktometer antara mobile Android dan web dashboard (`/api/scans` & `/data-brix`).
 - **Master Varietas Tebu**: Katalog jenis tebu (Bululawang, PS 881, Kidang Kencana, dll.) beserta ambang batas panen.
+- **Machine Learning & Agronomic Intelligence (EBrixMLEngine)**:
+  - Prediksi Sugarcane Yield (produktivitas ton/ha & quintal/acre) berbasis Tuned Ensemble Model (>90% akurasi).
+  - Prediksi kadar Brix (°Brix), rendemen gula kristal, dan volume perahan nira tebu.
+  - Klasifikasi risiko penyakit tanaman (High, Medium, Low) & rekomendasi perlakuan.
+  - Kalkulasi rendemen standar industri gula Winter-Carp.
+  - Simulasi kalender tanam & analisis komparasi musim kemarau vs penghujan.
 - **Estimasi & Rekomendasi Panen**: Analisis kematangan tanaman dan rekomendasi waktu tebang optimal per blok lahan.
 - **Ekspor Data**: Fitur unduh laporan hasil survei lapangan dalam format CSV dan PDF.
 

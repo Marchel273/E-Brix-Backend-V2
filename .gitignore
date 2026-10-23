@@ -4,3 +4,8 @@ api_env/
 venv/
 *.pyc
 .vscode/
+
+# Model artifacts - file .pkl dan .keras besar, simpan di Git LFS atau exclude jika perlu
+# Uncomment baris di bawah jika TIDAK ingin push model ke GitHub:
+# model_artifacts/*.pkl
+# model_artifacts/*.keras

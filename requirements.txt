@@ -9,3 +9,8 @@ python-dotenv
 cloudinary
 shapely
 reportlab
+
+# Machine Learning dependencies
+numpy
+pandas
+scikit-learn

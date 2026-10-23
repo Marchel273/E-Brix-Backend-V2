@@ -110,6 +110,13 @@ def create_app():
             "message": "Heatmap GEE"
         }), 200
 
+    # ML Direct Aliases (kompatibel langsung dengan project ML frontend/client)
+    from controllers.ml_controller import infer_multi_target, predict_yield, get_prediction_history, delete_prediction_history
+    app.add_url_rule("/predict", view_func=infer_multi_target, methods=["POST"])
+    app.add_url_rule("/sugarcane-yield", view_func=predict_yield, methods=["POST"])
+    app.add_url_rule("/history", view_func=get_prediction_history, methods=["GET"])
+    app.add_url_rule("/history/<int:entry_id>", view_func=delete_prediction_history, methods=["DELETE"])
+
     return app
 
 
