@@ -21,3 +21,6 @@ class Lahan(db.Model):
 
     # Relationships
     bloks = db.relationship("BlokLahan", backref="lahan", cascade="all, delete-orphan")
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)

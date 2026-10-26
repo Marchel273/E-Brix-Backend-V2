@@ -33,3 +33,6 @@ class DataBrix(db.Model):
 
     # Relationships
     prediksis = db.relationship("Prediksi", backref="data_brix", cascade="all, delete-orphan")
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)

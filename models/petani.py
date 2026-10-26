@@ -21,3 +21,6 @@ class Petani(db.Model):
 
     # Relationships
     lahans = db.relationship("Lahan", backref="petani", cascade="all, delete-orphan")
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)

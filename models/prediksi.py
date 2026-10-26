@@ -17,3 +17,6 @@ class Prediksi(db.Model):
     updated_at = db.Column(
         db.DateTime, nullable=False, server_default=db.func.now(), onupdate=db.func.now()
     )
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)

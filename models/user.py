@@ -21,3 +21,6 @@ class User(db.Model):
     # Relationships
     petani = db.relationship("Petani", backref="user", uselist=False, cascade="all, delete-orphan")
     data_brix = db.relationship("DataBrix", backref="user")
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)

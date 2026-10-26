@@ -28,3 +28,6 @@ class BlokLahan(db.Model):
 
     # Relationships
     data_brix_list = db.relationship("DataBrix", backref="blok_lahan", cascade="all, delete-orphan")
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)

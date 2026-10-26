@@ -17,3 +17,6 @@ class JenisTebu(db.Model):
 
     # Relationships
     bloks = db.relationship("BlokLahan", backref="jenis_tebu")
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
