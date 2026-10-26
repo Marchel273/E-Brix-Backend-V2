@@ -29,6 +29,8 @@ E-Brix-Backend/
 ├── utils/                      # Helper & decorator
 │   ├── helpers.py              # File format, GeoJSON & Point converter
 │   └── decorators.py           # Role-based decorators (Admin & Petani)
+├── ml_engine.py                # Ensemble ML inference engine (lazy loading)
+├── model_artifacts/            # Model weights (.pkl, .keras, .json)
 ├── models/                     # Model ORM (PostgreSQL + PostGIS)
 │   ├── user.py                 # User & authentication
 │   ├── petani.py               # Profil detail petani
@@ -36,7 +38,8 @@ E-Brix-Backend/
 │   ├── lahan.py                # Data lahan (Polygon boundary)
 │   ├── blok_lahan.py           # Data blok lahan (Polygon boundary)
 │   ├── data_brix.py            # Data pengukuran brix & offline sync (Point)
-│   └── prediksi.py             # Hasil inferensi / prediksi
+│   ├── prediksi.py             # Hasil inferensi / prediksi
+│   └── prediksi_ml.py          # Riwayat prediksi ML (PostgreSQL + JSONB)
 ├── controllers/                # Business logic
 │   ├── auth_controller.py      # Register, Login, Profile, OTP Reset
 │   ├── petani_controller.py    # CRUD Petani
@@ -46,7 +49,8 @@ E-Brix-Backend/
 │   ├── data_brix_controller.py # CRUD Pengukuran, Cloudinary, Sync Batch
 │   ├── prediksi_controller.py  # CRUD Prediksi
 │   ├── export_controller.py    # Export Data Pengukuran CSV & PDF
-│   └── rekomendasi_controller.py # Rekomendasi Panen & Statistik Brix
+│   ├── rekomendasi_controller.py # Rekomendasi Panen & Statistik Brix
+│   └── ml_controller.py        # ML Prediction & PostgreSQL History
 └── routes/                     # Definisi endpoint (Blueprint)
     ├── auth_route.py
     ├── petani_route.py
@@ -56,7 +60,8 @@ E-Brix-Backend/
     ├── data_brix_route.py
     ├── prediksi_route.py
     ├── export_route.py
-    └── rekomendasi_route.py
+    ├── rekomendasi_route.py
+    └── ml_route.py
 ```
 
 ---
@@ -170,6 +175,14 @@ Server akan berjalan di `http://localhost:5000`.
 | `GET` | `/rekomendasi/blok/<id>` | Rekomendasi kesiapan panen blok tebu | JWT |
 | `GET` | `/rekomendasi/lahan/<id>` | Ringkasan status panen seluruh blok di satu lahan | JWT |
 | `GET` | `/statistik/blok/<id>` | Ringkasan statistik (rata-rata, min, max, sampel) | JWT |
+
+### 🌾 10. Prediksi Cerdas Tebu Ensemble ML (`/ml`)
+| Method | Endpoint | Deskripsi | Auth |
+|---|---|---|:---:|
+| `POST` | `/ml/predict` | Menjalankan inferensi model Ensemble ML (Yield, Sugar, Nira, Brix, Duration, Penyakit) & menyimpan riwayat ke PostgreSQL | Opsional |
+| `GET` | `/ml/history` | Mengambil seluruh riwayat prediksi dari tabel `prediksi_ml` PostgreSQL | Opsional |
+| `DELETE` | `/ml/history/<id>` | Menghapus satu entri riwayat prediksi berdasarkan ID | Opsional |
+| `DELETE` | `/ml/history` | Menghapus seluruh riwayat prediksi ML | Opsional |
 
 ---
 

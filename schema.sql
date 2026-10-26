@@ -89,7 +89,22 @@ CREATE TABLE prediksi (
     updated_at        TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+-- Tabel riwayat prediksi Machine Learning (terintegrasi)
+CREATE TABLE prediksi_ml (
+    id              SERIAL PRIMARY KEY,
+    id_user         UUID REFERENCES users(id_user) ON DELETE SET NULL,
+    input_params    JSONB NOT NULL,
+    hasil           JSONB NOT NULL,
+    analisis_musim  JSONB,
+    rekomendasi     JSONB,
+    created_at      TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX idx_prediksi_ml_user    ON prediksi_ml (id_user);
+CREATE INDEX idx_prediksi_ml_created ON prediksi_ml (created_at DESC);
+
 CREATE INDEX idx_lahan_geom       ON lahan USING GIST (geom);
+
 CREATE INDEX idx_blok_lahan_geom  ON blok_lahan USING GIST (geom);
 CREATE INDEX idx_data_brix_geom   ON data_brix USING GIST (geom);
 CREATE INDEX idx_data_brix_status_sinkron ON data_brix (status_sinkron);

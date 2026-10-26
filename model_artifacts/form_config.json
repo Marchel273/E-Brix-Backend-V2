@@ -1,0 +1,393 @@
+{
+  "cat_options": {
+    "Month": [
+      "Apr",
+      "Aug",
+      "Dec",
+      "Feb",
+      "Jan",
+      "Jul",
+      "Jun",
+      "Mar",
+      "May",
+      "Nov",
+      "Oct",
+      "Sep"
+    ],
+    "Soil_Type": [
+      "Alluvial",
+      "Clay",
+      "Loamy",
+      "Sandy"
+    ],
+    "Irrigation_Frequency_Level": [
+      "High",
+      "Low",
+      "Medium"
+    ],
+    "Irrigation_Method_Type": [
+      "Drip",
+      "Flood",
+      "Sprinkler"
+    ],
+    "Water_Quality_Category": [
+      "Good",
+      "Moderate",
+      "Saline"
+    ],
+    "Intercropping": [
+      "No",
+      "Yes"
+    ],
+    "Weed_Control": [
+      "Chemical",
+      "Manual"
+    ],
+    "Soil_Condition_At_Planting": [
+      "Dry",
+      "Moist",
+      "Wet"
+    ],
+    "Planting_Method": [
+      "Circular",
+      "Paired Row",
+      "Straight Row",
+      "Trench"
+    ],
+    "Mulching": [
+      "No",
+      "Yes"
+    ],
+    "Fertilizer_Split": [
+      "Single",
+      "Split"
+    ],
+    "Drainage_Condition": [
+      "Good",
+      "Moderate",
+      "Poor"
+    ],
+    "Variety": [
+      "Co0238",
+      "Co98014",
+      "CoJ64"
+    ],
+    "Disease_Type": [
+      "Leaf Scald",
+      "Red Rot",
+      "Smut"
+    ],
+    "Pest_Level": [
+      "High",
+      "Low",
+      "Medium"
+    ],
+    "Fertilizer_Type": [
+      "DAP",
+      "Organic",
+      "Urea"
+    ],
+    "Application_Timing": [
+      "Early",
+      "Late",
+      "Mid"
+    ],
+    "Machinery_Use": [
+      "No",
+      "Yes"
+    ],
+    "Tehsil": [
+      "Bhagwanpur",
+      "Haridwar",
+      "Khanpur",
+      "Laksar",
+      "Roorkee"
+    ],
+    "Agro_Cluster": [
+      "Bahadrabad_Cluster",
+      "Dhanauri_Cluster",
+      "Iqbalpur_Cluster",
+      "Jwalapur_Cluster",
+      "Landaura_Cluster",
+      "Manglore_Cluster",
+      "Narsan_Cluster",
+      "PiranKaliyar_Cluster"
+    ],
+    "Season": [
+      "Kharif",
+      "Rabi"
+    ],
+    "Growth_Stage": [
+      "Early",
+      "Late",
+      "Mid"
+    ]
+  },
+  "num_ranges": {
+    "Temp_Min_C": {
+      "min": 2.277307928953075,
+      "max": 41.30690248078093,
+      "mean": 22.382054420491418
+    },
+    "Temp_Max_C": {
+      "min": 13.136447777566907,
+      "max": 52.48453457253109,
+      "mean": 33.37110715255487
+    },
+    "Temp_Avg_C": {
+      "min": 10.02018517748234,
+      "max": 44.94959834531274,
+      "mean": 27.87310861062999
+    },
+    "Rainfall_Total_mm": {
+      "min": 800.2106190295079,
+      "max": 1999.8712000460591,
+      "mean": 1401.0032223385456
+    },
+    "Rainfall_Seasonal_mm": {
+      "min": 400.0074367804678,
+      "max": 1199.755865096956,
+      "mean": 792.1261657264191
+    },
+    "Humidity_%": {
+      "min": 50.03859847374256,
+      "max": 89.98072525661811,
+      "mean": 70.04705727984512
+    },
+    "Solar_Radiation_MJ_m2_day": {
+      "min": 15.003020972014657,
+      "max": 29.99661716408293,
+      "mean": 22.548151483911266
+    },
+    "Wind_Speed_kmph": {
+      "min": 2.0002667334916344,
+      "max": 14.99966027940134,
+      "mean": 8.616776640520289
+    },
+    "Evapotranspiration_mm_day": {
+      "min": 2.001488142250865,
+      "max": 7.999035742858428,
+      "mean": 5.0143107144346235
+    },
+    "Dew_Point_C": {
+      "min": 10.001535587887703,
+      "max": 24.997127217606472,
+      "mean": 17.427119166937924
+    },
+    "Heat_Stress_Days": {
+      "min": 0.0,
+      "max": 29.0,
+      "mean": 14.568538542029996
+    },
+    "Frost_Days": {
+      "min": 0.0,
+      "max": 9.0,
+      "mean": 4.441576560865015
+    },
+    "Soil_pH": {
+      "min": 6.000041840644837,
+      "max": 8.499726411578482,
+      "mean": 7.247197988651295
+    },
+    "EC": {
+      "min": 0.1002246252598536,
+      "max": 2.4999331536831577,
+      "mean": 1.2936301234493648
+    },
+    "Organic_Carbon_%": {
+      "min": 0.2001361240375866,
+      "max": 1.4995739985291503,
+      "mean": 0.8424991934416041
+    },
+    "Soil_Moisture_%": {
+      "min": 10.011622389113336,
+      "max": 39.99523901493765,
+      "mean": 25.18024692698634
+    },
+    "Sand_%": {
+      "min": 20.030590652899924,
+      "max": 59.98598137362131,
+      "mean": 40.08321280966177
+    },
+    "Silt_%": {
+      "min": 10.00025296633913,
+      "max": 39.99819088137156,
+      "mean": 25.12470836962741
+    },
+    "Clay_%": {
+      "min": 10.018892511741184,
+      "max": 39.99069632158119,
+      "mean": 24.906109686337462
+    },
+    "Soil_Depth_cm": {
+      "min": 50.04051835350918,
+      "max": 199.9021387360833,
+      "mean": 124.94190093098733
+    },
+    "Water_Holding_Capacity_%": {
+      "min": 20.029548220960983,
+      "max": 59.98475580347375,
+      "mean": 40.10955346638082
+    },
+    "Nitrogen_kg_per_acre": {
+      "min": 50.180773322948255,
+      "max": 249.77814322650937,
+      "mean": 151.61091133946198
+    },
+    "Phosphorus_kg_per_acre": {
+      "min": 20.01712553679753,
+      "max": 119.98750991412936,
+      "mean": 70.18754500689316
+    },
+    "Potassium_kg_per_acre": {
+      "min": 30.022101916035403,
+      "max": 199.9690505069306,
+      "mean": 115.05576219934032
+    },
+    "Zinc_mg_per_kg": {
+      "min": 0.5011756382432639,
+      "max": 4.9994024022629375,
+      "mean": 2.7569088400595905
+    },
+    "Iron_mg_per_kg": {
+      "min": 2.004313713463069,
+      "max": 9.995002838604696,
+      "mean": 6.0629267383518695
+    },
+    "Copper_mg_per_kg": {
+      "min": 0.2012246939077326,
+      "max": 2.999603715941286,
+      "mean": 1.6126123673692938
+    },
+    "Manganese_mg_per_kg": {
+      "min": 1.0012621193261662,
+      "max": 7.998279556708447,
+      "mean": 4.489418787069361
+    },
+    "Sulfur_kg_per_acre": {
+      "min": 5.002522898764587,
+      "max": 29.99980105757415,
+      "mean": 17.319021978393383
+    },
+    "Water_Quantity_liters_per_acre": {
+      "min": 500.210792719576,
+      "max": 1999.3879671290108,
+      "mean": 1237.0614113644504
+    },
+    "Groundwater_Level_meters": {
+      "min": 1.014447540436172,
+      "max": 19.99739485813493,
+      "mean": 10.551842723599957
+    },
+    "Seed_Rate": {
+      "min": 5.003452018046769,
+      "max": 14.989289091342773,
+      "mean": 10.008141219075203
+    },
+    "Row_Spacing_cm": {
+      "min": 60.00165179465971,
+      "max": 119.98386850388616,
+      "mean": 89.96526692980547
+    },
+    "Row_Gap_cm": {
+      "min": 60.02615281525333,
+      "max": 149.9876304983689,
+      "mean": 105.23675343476964
+    },
+    "Plant_Density": {
+      "min": 50058.43070077519,
+      "max": 149951.2420384491,
+      "mean": 99827.24000674397
+    },
+    "Germination_%": {
+      "min": 60.00448558788161,
+      "max": 99.99624356067535,
+      "mean": 79.9584784936659
+    },
+    "Tillering_Count": {
+      "min": 5.0,
+      "max": 24.0,
+      "mean": 14.512382281130101
+    },
+    "Cane_Height_cm": {
+      "min": 150.00731703587002,
+      "max": 349.99787696524294,
+      "mean": 250.4556009600807
+    },
+    "Cane_Diameter_cm": {
+      "min": 2.0014965641675704,
+      "max": 4.997516199998444,
+      "mean": 3.536679025923151
+    },
+    "Internode_Length_cm": {
+      "min": 10.000236561190516,
+      "max": 24.997596988789866,
+      "mean": 17.61061305472288
+    },
+    "Pesticide_Usage": {
+      "min": 0.0002624195978062,
+      "max": 9.998851972177729,
+      "mean": 5.01857040016594
+    },
+    "Fertilizer_Quantity": {
+      "min": 50.2949545472116,
+      "max": 299.82090642658113,
+      "mean": 175.8673916501235
+    },
+    "Labor_Input": {
+      "min": 10.006751505767454,
+      "max": 49.98062854356669,
+      "mean": 29.832728809213247
+    },
+    "Latitude": {
+      "min": 29.800220023898973,
+      "max": 30.19993702661689,
+      "mean": 30.00364230543073
+    },
+    "Longitude": {
+      "min": 78.00010453840987,
+      "max": 78.29996443548802,
+      "mean": 78.15087093649876
+    },
+    "Altitude_m": {
+      "min": 240.18337359689465,
+      "max": 349.94009664292,
+      "mean": 294.92862475863694
+    },
+    "Year": {
+      "min": 2018.0,
+      "max": 2024.0,
+      "mean": 2020.9420997558423
+    },
+    "Sunshine_Hours": {
+      "min": 5.0,
+      "max": 9.983333333333333,
+      "mean": 7.488937332868271
+    },
+    "NPK_Total": {
+      "min": 126.37516800156581,
+      "max": 557.0530535409614,
+      "mean": 336.8497931071969
+    },
+    "Temp_Range_C": {
+      "min": 6.117502766441273,
+      "max": 15.947707019848508,
+      "mean": 11.002160430234882
+    },
+    "Rain_Per_Day": {
+      "min": 2.0613583471679893,
+      "max": 7.925412598274554,
+      "mean": 4.398958675875322
+    },
+    "Bio_Index": {
+      "min": 3.0249069717143264,
+      "max": 7.51695075994359,
+      "mean": 5.216309582993387
+    }
+  },
+  "disease_classes": [
+    "High",
+    "Low",
+    "Medium"
+  ]
+}

@@ -43,6 +43,7 @@ def create_app():
     from routes.prediksi_route import prediksi_bp
     from routes.export_route import export_bp
     from routes.rekomendasi_route import rekomendasi_bp
+    from routes.ml_route import ml_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(petani_bp)
@@ -53,6 +54,7 @@ def create_app():
     app.register_blueprint(prediksi_bp)
     app.register_blueprint(export_bp)
     app.register_blueprint(rekomendasi_bp)
+    app.register_blueprint(ml_bp)
 
     # JWT error handlers
     @jwt.unauthorized_loader
@@ -84,9 +86,10 @@ def create_app():
     @app.route("/", methods=["GET"])
     def index():
         return jsonify({
-            "message": "Selamat datang di API E-Brix (PostgreSQL + PostGIS Edition)",
+            "message": "Selamat datang di API E-Brix (PostgreSQL + PostGIS + ML Engine)",
             "status": "online",
-            "version": "2.0.0"
+            "version": "2.1.0",
+            "ml_engine": "integrated"
         }), 200
 
     return app

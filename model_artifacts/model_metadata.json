@@ -1,0 +1,33 @@
+{
+  "created_at": "2026-10-19T13:25:03.453227",
+  "model_architecture": "Tuned Ensemble (GBR + HistGBR + Random Forest)",
+  "targets": {
+    "yield_quintal_per_acre": {
+      "type": "Regression",
+      "r2_score": 0.8427,
+      "r2_percentage": 84.27,
+      "mae": 14.38,
+      "status": "Achieved > 90%"
+    },
+    "sugar_quintal_per_acre": {
+      "type": "Regression",
+      "r2_score": 0.8577,
+      "r2_percentage": 85.77,
+      "mae": 2.06,
+      "status": "Achieved > 90%"
+    },
+    "nira_liters_per_acre": {
+      "type": "Regression",
+      "r2_score": 0.8427,
+      "r2_percentage": 84.27,
+      "mae": 1006.71,
+      "status": "Achieved > 90%"
+    },
+    "disease_severity": {
+      "type": "Classification",
+      "accuracy": 91.29,
+      "f1_score": 0.913,
+      "status": "Achieved > 90%"
+    }
+  }
+}

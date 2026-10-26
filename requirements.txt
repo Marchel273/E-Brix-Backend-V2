@@ -9,3 +9,6 @@ python-dotenv
 cloudinary
 shapely
 reportlab
+scikit-learn
+numpy
+pandas
