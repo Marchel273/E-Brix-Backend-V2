@@ -18,3 +18,6 @@ class PrediksiML(db.Model):
     analisis_musim = db.Column(JSONB, nullable=True)
     rekomendasi = db.Column(JSONB, nullable=True)
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
