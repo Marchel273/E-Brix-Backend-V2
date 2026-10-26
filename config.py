@@ -23,6 +23,11 @@ class Config:
         SQLALCHEMY_DATABASE_URI = f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{name}"
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        "connect_args": {
+            "connect_timeout": 1
+        }
+    }
     SECRET_KEY = os.getenv("SECRET_KEY", "ebrix-super-secret-key-2026")
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "ebrix-jwt-secret-key-2026")
 
