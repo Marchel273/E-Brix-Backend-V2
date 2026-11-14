@@ -9,6 +9,7 @@ python-dotenv
 cloudinary
 shapely
 reportlab
+gunicorn
 
 # Machine Learning dependencies
 numpy

@@ -33,6 +33,29 @@
 
 ## ⚡ Cara Menjalankan
 
+### Opsi A: Menggunakan Docker & Docker Compose (Direkomendasikan untuk Hosting)
+
+1. **Jalankan Seluruh Stack (Flask Backend + PostgreSQL PostGIS):**
+   ```bash
+   docker compose up -d --build
+   ```
+
+2. **Inisialisasi & Seeding Data Awal di dalam Container:**
+   ```bash
+   docker compose exec backend python seed_data.py
+   docker compose exec backend python seed_prediction_history.py
+   ```
+
+3. **Cek Log Server:**
+   ```bash
+   docker compose logs -f backend
+   ```
+   *Aplikasi berjalan di `http://localhost:5000` dan PostgreSQL di port `5432`.*
+
+---
+
+### Opsi B: Menjalankan Manual (Lokal Python)
+
 1. **Install Dependensi:**
    ```bash
    pip install -r requirements.txt
