@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-11-17T14:39:55.416743",
+  "created_at": "2026-11-27T13:31:03.526462",
   "model_architecture": "Tuned High-Performance Gradient Boosting Ensemble & GPU Accelerator (> 90% Achieved)",
   "hardware_acceleration": {
     "gpu_device": "AMD Radeon(TM) Graphics\u0000",
@@ -57,5 +57,36 @@
       "f1_score": 0.3374,
       "status": "Evaluated"
     }
-  }
+  },
+  "validation_5fold_cv": {
+    "1. Hasil Panen (Cane Yield)": {
+      "cv5_r2_mean_pct": 93.75,
+      "cv5_r2_std_pct": 0.22,
+      "cv5_acc_mean_pct": 91.04,
+      "cv5_acc_std_pct": 0.12,
+      "cv5_mae_mean": 19.33
+    },
+    "2. Potensi Gula (Sugar Yield)": {
+      "cv5_r2_mean_pct": 94.64,
+      "cv5_r2_std_pct": 0.19,
+      "cv5_acc_mean_pct": 90.84,
+      "cv5_acc_std_pct": 0.16,
+      "cv5_mae_mean": 2.85
+    },
+    "3. Produksi Nira (Juice)": {
+      "cv5_r2_mean_pct": 93.75,
+      "cv5_r2_std_pct": 0.22,
+      "cv5_acc_mean_pct": 91.04,
+      "cv5_acc_std_pct": 0.12,
+      "cv5_mae_mean": 1352.8
+    },
+    "4. Durasi Panen (Crop Duration)": {
+      "cv5_r2_mean_pct": 95.95,
+      "cv5_r2_std_pct": 0.17,
+      "cv5_acc_mean_pct": 99.02,
+      "cv5_acc_std_pct": 0.02,
+      "cv5_mae_mean": 3.14
+    }
+  },
+  "physics_winter_carp_corr": 0.9984
 }

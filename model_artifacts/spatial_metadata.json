@@ -34,5 +34,51 @@
     60
   ],
   "total_plots": 3600,
-  "last_updated": "2026-11-17 14:38:06"
+  "last_updated": "2026-11-27 13:34:11",
+  "validation_5fold_cv": {
+    "1. Tuned IDW (Murni Spasial)": {
+      "train_r2_pct": 99.23,
+      "test_r2_pct": 81.91,
+      "test_r2_std_pct": 7.17,
+      "train_acc_pct": 98.82,
+      "test_acc_pct": 92.75,
+      "train_mae": 1.1,
+      "test_mae": 6.74,
+      "test_rmse": 14.57
+    },
+    "2. Tuned Ordinary Kriging (Murni Spasial)": {
+      "train_r2_pct": 100.0,
+      "test_r2_pct": 79.17,
+      "test_r2_std_pct": 5.56,
+      "train_acc_pct": 100.0,
+      "test_acc_pct": 92.43,
+      "train_mae": 0.0,
+      "test_mae": 7.04,
+      "test_rmse": 15.8
+    },
+    "3. Kriging with External Drift (KED - NDVI)": {
+      "train_r2_pct": 100.0,
+      "test_r2_pct": 94.06,
+      "test_r2_std_pct": 2.35,
+      "train_acc_pct": 100.0,
+      "test_acc_pct": 96.17,
+      "train_mae": 0.0,
+      "test_mae": 3.57,
+      "test_rmse": 8.22
+    },
+    "4. Hybrid Regression-Kriging (RF + Kriging)": {
+      "train_r2_pct": 100.0,
+      "test_r2_pct": 98.68,
+      "test_r2_std_pct": 0.94,
+      "train_acc_pct": 100.0,
+      "test_acc_pct": 98.48,
+      "train_mae": 0.0,
+      "test_mae": 1.41,
+      "test_rmse": 3.81
+    }
+  },
+  "zone_concordance_pct": {
+    "hybrid_rk": 98.44,
+    "ked": 97.04
+  }
 }
