@@ -1,0 +1,38 @@
+{
+  "model_name": "Smart Sugarcane Spatial Engine & Early Warning Suite",
+  "version": "2.2.0-smart-agroadaptive",
+  "district_focus": "Rahim Yar Khan (Punjab Sentra Tebu)",
+  "capabilities": [
+    "Spatial Interpolation (Tuned IDW, Tuned Kriging, KED, Hybrid)",
+    "Agro-climatic Dynamic GDD & Water Dilution Progression Engine",
+    "Spatial Anomaly & Crop Stress Early Warning System"
+  ],
+  "methods": {
+    "Tuned_IDW_Pure_Spatial": {
+      "R2": "82.41%",
+      "Accuracy": "85.13%",
+      "MAE": 4.54
+    },
+    "Tuned_Ordinary_Kriging_Pure_Spatial": {
+      "R2": "79.17%",
+      "Accuracy": "84.77%",
+      "MAE": 4.65
+    },
+    "Kriging_with_External_Drift_KED": {
+      "R2": "94.06%",
+      "Accuracy": "91.14%",
+      "MAE": 2.71
+    },
+    "Hybrid_Regression_Kriging": {
+      "R2": "98.60%",
+      "Accuracy": "95.28%",
+      "MAE": 1.26
+    }
+  },
+  "grid_shape": [
+    60,
+    60
+  ],
+  "total_plots": 3600,
+  "last_updated": "2026-11-17 14:38:06"
+}

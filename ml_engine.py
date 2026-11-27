@@ -27,6 +27,7 @@ le_disease = None
 num_imputer = None
 cat_imputer = None
 feature_columns = None
+env_features = None
 num_cols = None
 cat_cols = None
 form_config = None
@@ -37,7 +38,7 @@ def load_models():
     global _models_loaded
     global model_yield, model_sugar, model_nira, model_brix, model_duration, model_disease
     global label_encoders, le_disease, num_imputer, cat_imputer
-    global feature_columns, num_cols, cat_cols, form_config
+    global feature_columns, env_features, num_cols, cat_cols, form_config
 
     if _models_loaded:
         return
@@ -63,6 +64,7 @@ def load_models():
     num_imputer = models_bundle['num_imputer']
     cat_imputer = models_bundle['cat_imputer']
     feature_columns = models_bundle['feature_names']
+    env_features = models_bundle.get('env_features', [c for c in feature_columns if c not in ['Disease_Severity', 'Brix_Value']])
     num_cols = models_bundle['num_cols']
     cat_cols = models_bundle['cat_cols']
 
@@ -201,30 +203,62 @@ def _build_feature_row(input_dict):
 
     # Encoding fitur kategorikal
     for col in cat_cols:
-        if col in label_encoders:
+        if col in label_encoders and col in df_row.columns:
             try:
                 df_row[col] = label_encoders[col].transform(df_row[col].astype(str))
             except (ValueError, KeyError):
                 df_row[col] = 0
 
-    return df_row[feature_columns]
+    return df_row
 
 
 def _run_single_prediction(input_dict):
     """Mengembalikan dict prediksi dari model ensemble high-performance (> 90%)."""
     load_models()
-    X_row = _build_feature_row(input_dict)
+    df_row = _build_feature_row(input_dict)
 
-    pred_yield = float(model_yield.predict(X_row)[0])
-    pred_sugar = float(model_sugar.predict(X_row)[0])
-    pred_nira = float(model_nira.predict(X_row)[0])
-    pred_brix = float(model_brix.predict(X_row)[0])
-    pred_duration = float(model_duration.predict(X_row)[0])
-
-    pred_disease_proba = model_disease.predict_proba(X_row)[0]
+    # 1. Prediksi Disease & Brix dari parameter lingkungan (72 env_features)
+    X_env = df_row[env_features]
+    pred_brix = float(model_brix.predict(X_env)[0])
+    pred_disease_proba = model_disease.predict_proba(X_env)[0]
     pred_disease_idx = int(np.argmax(pred_disease_proba))
     pred_disease_label = le_disease.inverse_transform([pred_disease_idx])[0]
     pred_disease_conf = float(pred_disease_proba[pred_disease_idx]) * 100
+
+    # 2. Jika input_dict memiliki Brix_Value atau Disease_Severity spesifik, gunakan nilai tersebut.
+    #    Jika tidak, gunakan hasil estimasi lingkungan di atas.
+    if 'Brix_Value' in input_dict and input_dict['Brix_Value'] not in [None, '']:
+        try:
+            user_brix = float(input_dict['Brix_Value'])
+            df_row['Brix_Value'] = user_brix
+            pred_brix = user_brix
+        except (ValueError, TypeError):
+            df_row['Brix_Value'] = pred_brix
+    else:
+        df_row['Brix_Value'] = pred_brix
+
+    if 'Disease_Severity' in input_dict and input_dict['Disease_Severity'] not in [None, '']:
+        user_dis = str(input_dict['Disease_Severity'])
+        if user_dis in le_disease.classes_:
+            pred_disease_label = user_dis
+            pred_disease_idx = list(le_disease.classes_).index(user_dis)
+            pred_disease_conf = 95.0
+        try:
+            df_row['Disease_Severity'] = label_encoders['Disease_Severity'].transform([pred_disease_label])[0]
+        except Exception:
+            df_row['Disease_Severity'] = 0
+    else:
+        try:
+            df_row['Disease_Severity'] = label_encoders['Disease_Severity'].transform([pred_disease_label])[0]
+        except Exception:
+            df_row['Disease_Severity'] = 0
+
+    # 3. Prediksi Yield, Sugar, Nira, Duration menggunakan 74 fitur lengkap (> 90% accuracy)
+    X_full = df_row[feature_columns]
+    pred_yield = float(model_yield.predict(X_full)[0])
+    pred_sugar = float(model_sugar.predict(X_full)[0])
+    pred_nira = float(model_nira.predict(X_full)[0])
+    pred_duration = float(model_duration.predict(X_full)[0])
 
     disease_score = {'Low': 1, 'Medium': 2, 'High': 3}.get(pred_disease_label, 2)
 
